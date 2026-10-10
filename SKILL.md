@@ -2,7 +2,7 @@
 name: requirements-testing
 description: 将游戏策划案、产品或业务需求整理为需求规范和REQ清单，解析Word、PDF和截图，导入旧需求、测试点及Excel用例，分析需求变更并安全更新用例，输出独立测试点、评审、可编辑XMind和详细Excel用例，核对用例引用的需求/验收标准/测试点编号，也支持通用Excel创建、编辑、公式、图表与分析。不执行被测系统。
 metadata:
-  version: "1.5.1"
+  version: "1.6.0"
 ---
 
 # 需求到测试

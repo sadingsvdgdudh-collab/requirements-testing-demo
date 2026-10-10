@@ -18,6 +18,11 @@ import re
 
 MANIFEST_NAME = "框架能力清单.json"
 AVAILABLE_ADVICES = {"UI自动化可用", "UI自动化可做，需采集新资产", "仅api自动化可用", "双通道均可用"}
+# 1.0：只核对"能力是否真实存在"；1.1：每条能力还必须声明 channel，据此核对通道一致性。
+SCHEMAS = {"1.0", "1.1"}
+CHANNELS = {"api", "ui", "both"}
+UI_ADVICES = {"UI自动化可用", "UI自动化可做，需采集新资产"}
+REVERSE_ADVICES = {"当前框架能力不足"}
 
 
 def _text(value, label):
@@ -99,10 +104,49 @@ def _python_symbols(source: bytes, label: str) -> set[str]:
     return names
 
 
+def _capability_clash(detail: str, capabilities: dict) -> list[tuple[str, str]]:
+    """在"缺失能力"明细里找出与清单中已核对能力同名的项（反向证据）。
+
+    只做保守的整词匹配：token 归一化成 [a-z0-9_.-]，去掉括号里的参数，
+    与能力的 id 或 symbol 末段完全相等才算冲突 —— 宁可漏报，也不要误伤。
+    """
+    # 先截掉后面的"补齐办法/核对办法"等段落：它们不是能力名，且可能紧贴在同一句里
+    # （「缺失能力：Bridge.call。补齐办法：待补。」这种没有顿号的写法曾漏报）。
+    for stop in ("补齐办法：", "补齐办法:", "核对办法：", "核对办法:",
+                 "待核对能力：", "待核对能力:", "理由：", "理由:"):
+        detail = detail.split(stop, 1)[0]
+    # 注意分隔符里不能有 "."：能力编号本身带点（bridge.Bridge.call），拆开就认不出来了。
+    tokens = re.split(r"[、，,;；。：:！？!?/|\s]+", detail or "")
+    normalized = []
+    for token in tokens:
+        token = token.split("(", 1)[0].strip().strip("`*_（）()【】[]\"'")
+        token = token.lower()
+        if len(token) < 2 or not re.fullmatch(r"[a-z0-9_.\-]+", token):
+            continue
+        normalized.append(token)
+    if not normalized:
+        return []
+    index = {}
+    for cap in capabilities.values():
+        if not cap.get("_verified"):
+            continue
+        cap_id = cap["id"]
+        index.setdefault(cap_id.lower(), cap_id)
+        index.setdefault(cap_id.split(".", 1)[-1].lower(), cap_id)
+        if cap.get("symbol"):
+            index.setdefault(str(cap["symbol"]).split(".")[-1].lower(), cap_id)
+    clash = []
+    for token in normalized:
+        if token in index and (token, index[token]) not in clash:
+            clash.append((token, index[token]))
+    return clash
+
+
 def validate_manifest(manifest: dict, module_dir: Path | None = None) -> dict:
     """Validate all manifest entries, return a copy with verification metadata."""
-    if not isinstance(manifest, dict) or manifest.get("schema_version") != "1.0":
-        raise ValueError(f"{MANIFEST_NAME} schema_version 必须为1.0。")
+    if not isinstance(manifest, dict) or manifest.get("schema_version") not in SCHEMAS:
+        raise ValueError(f"{MANIFEST_NAME} schema_version 必须为 {' 或 '.join(sorted(SCHEMAS))}。")
+    schema = manifest["schema_version"]
     _text(manifest.get("reviewer"), "框架能力清单/reviewer")
     checked_at = _text(manifest.get("checked_at"), "框架能力清单/checked_at")
     try:
@@ -128,6 +172,14 @@ def validate_manifest(manifest: dict, module_dir: Path | None = None) -> dict:
         kind = capability.get("kind")
         if kind not in ("function", "asset"):
             raise ValueError(f"{cap_id}/kind 必须为 function 或 asset。")
+        if schema == "1.1":
+            # 1.1 起通道是能力声明的一部分：没有它就无法核对"仅 api / UI / 双通道"是否成立。
+            channel = capability.get("channel")
+            if channel not in CHANNELS:
+                raise ValueError(f"{cap_id}/channel 必须为 {'/'.join(sorted(CHANNELS))} 之一。")
+        else:
+            # 1.0 清单没有通道信息，通道类规则不参与判断（不猜测、不默认）。
+            capability["channel"] = None
         relative = _relative(capability.get("file"), cap_id + "/file")
         path = (root / relative).resolve()
         if not path.is_relative_to(root):
@@ -171,6 +223,8 @@ def evaluate_automation(case: dict, module_dir: Path | None = None, manifest: di
         manifest = load_manifest(module_dir)
     selected = []
     reasons = []
+    capabilities = {}
+    schema = manifest.get("schema_version") if isinstance(manifest, dict) else None
     if manifest is not None:
         checked = validate_manifest(manifest, module_dir)
         capabilities = {cap["id"]: cap for cap in checked["capabilities"]}
@@ -199,6 +253,23 @@ def evaluate_automation(case: dict, module_dir: Path | None = None, manifest: di
             missing = detail.split("需采集新资产：", 1)[-1] if "需采集新资产：" in detail else ""
             if not re.search(r"(?:[\w.-]+/)[^\s，；;：:]+\.[A-Za-z0-9]{1,8}", missing):
                 raise ValueError("需采集新资产必须明确说明缺失场景截图及其存放文件路径。")
+        # 通道一致性：只在 1.1 清单（每条能力声明了 channel）上判断。
+        # 1.0 清单没有通道信息，这里不猜测——宁可少一条规则，也不要一条会误伤的规则。
+        if schema == "1.1":
+            channels = {cap["channel"] for cap in verified_functions if cap.get("channel")}
+
+            def _has(*wanted):
+                return any(channel == "both" or channel in wanted for channel in channels)
+
+            if advice == "仅api自动化可用" and not _has("api"):
+                raise ValueError(f"{advice} 必须关联已核对的 api 通道能力；"
+                                 f"当前证据通道为 {sorted(channels) or ['（空）']}。")
+            if advice in UI_ADVICES and not _has("ui"):
+                raise ValueError(f"{advice} 必须关联已核对的 ui 通道能力；"
+                                 f"当前证据通道为 {sorted(channels) or ['（空）']}。")
+            if advice == "双通道均可用" and not (_has("api") and _has("ui")):
+                raise ValueError(f"{advice} 必须同时关联已核对的 api 与 ui 通道能力；"
+                                 f"当前证据通道为 {sorted(channels) or ['（空）']}。")
     verified = bool(selected) and all(cap["_verified"] for cap in selected)
     ready = verified and advice in (AVAILABLE_ADVICES - {"UI自动化可做，需采集新资产"}) and case.get("是否可自动化") == "是"
     status_reasons = {
@@ -210,6 +281,17 @@ def evaluate_automation(case: dict, module_dir: Path | None = None, manifest: di
     }
     if advice in status_reasons:
         reasons.append(status_reasons[advice])
+    # 反向证据：声称"当前框架能力不足"时要能被清单反驳。
+    # 只说"缺什么"而不检查"是不是真的缺"，等于给了一条最省事的逃生通道（少设计、少测）。
+    if advice in REVERSE_ADVICES and capabilities:
+        detail = str(case.get("自动化建议明细", ""))
+        missing = detail.split("缺失能力：", 1)[-1] if "缺失能力：" in detail else ""
+        clash = _capability_clash(missing, capabilities)
+        if clash:
+            raise ValueError(
+                f"{advice} 与能力清单冲突：清单中已存在 " +
+                "、".join(f"{token}（{cap_id}）" for token, cap_id in clash[:5]) +
+                "；请改判自动化建议，或写明这些现有能力为何不适用。")
     if case.get("是否可自动化") != "是" and ready is False and advice in AVAILABLE_ADVICES:
         reasons.append("是否可自动化尚未确认为是。")
     return {"verified": verified, "ready": ready, "reasons": reasons, "evidence_ids": list(refs), "capabilities": selected}
