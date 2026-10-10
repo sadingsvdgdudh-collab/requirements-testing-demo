@@ -1,0 +1,101 @@
+{
+  "schema_version": "1.0",
+  "module": "截图",
+  "original": {
+    "file": "input/任务规则截图_f464b41ee9.png",
+    "sha256": "f464b41ee9caf34ffa1963c090c069084b538038902c3e4032e33adc4a1ddc93",
+    "format": ".png"
+  },
+  "draft": "input/任务规则截图_f464b41ee9__parsed.md",
+  "draft_sha256": "79622c6ac7ab192e80c94412e7c5744c399e9cd6ed7fa0e9d93466992007acce",
+  "blocks": [
+    {
+      "kind": "image",
+      "location": {
+        "image": "任务规则截图.png"
+      },
+      "lines": [
+        5,
+        5
+      ],
+      "asset": "image_f464b41ee9caf34f.png"
+    },
+    {
+      "kind": "ocr",
+      "location": {
+        "image": "任务规则截图.png"
+      },
+      "lines": [
+        7,
+        10
+      ],
+      "ocr": {
+        "engine": "apple-vision",
+        "height": 460,
+        "languages": [
+          "zh-Hans",
+          "en-US"
+        ],
+        "lines": [
+          {
+            "bbox": [
+              0.03924419123973146,
+              0.1017699104443146,
+              0.1947674342564174,
+              0.07964601931364634
+            ],
+            "confidence": 1,
+            "text": "游戏任务奖励规则"
+          },
+          {
+            "bbox": [
+              0.041666678047339964,
+              0.27826086945639883,
+              0.3291666521344866,
+              0.08913043478260874
+            ],
+            "confidence": 1,
+            "text": "任务完成3次，可领取10金币。"
+          },
+          {
+            "bbox": [
+              0.03924418839026158,
+              0.4690265476440617,
+              0.375,
+              0.07964601931364634
+            ],
+            "confidence": 0.5,
+            "text": "任务次数不足3：提示任务未完成。"
+          },
+          {
+            "bbox": [
+              0.03924418869534727,
+              0.6543478265507898,
+              0.18023255484444756,
+              0.08043478260869563
+            ],
+            "confidence": 0.5,
+            "text": "每日限领取1次。"
+          }
+        ],
+        "needs_review": true,
+        "width": 1400
+      },
+      "needs_review": true
+    }
+  ],
+  "images": [
+    {
+      "name": "image_f464b41ee9caf34f.png",
+      "location": {
+        "image": "任务规则截图.png"
+      },
+      "sha256": "f464b41ee9caf34ffa1963c090c069084b538038902c3e4032e33adc4a1ddc93"
+    }
+  ],
+  "needs_review": true,
+  "warnings": [
+    "{'image': '任务规则截图.png'}：OCR转录需核对文字、数字与阅读顺序，置信度不等于准确率。"
+  ],
+  "scope": "文件转录，不是语义需求提取或真实系统测试"
+}

@@ -1,0 +1,4 @@
+interface:
+  display_name: "需求到测试"
+  short_description: "文档解析、旧资料导入、需求变更、测试点与XMind、详细用例及通用Excel"
+  default_prompt: "使用 $requirements-testing 解析这份需求或导入现有资料，生成测试点、XMind和Excel用例；有需求变更时安全更新。"

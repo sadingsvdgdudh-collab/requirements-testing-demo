@@ -1,0 +1,29 @@
+# requirements-testing 的 Python 依赖
+#
+# 安装：python3 -m pip install -r requirements.txt
+# 完整说明（缺哪个会导致哪些测试失败/跳过）见 依赖说明.md
+#
+# 注意：本技能在缺少依赖时**不会自动安装**，而是明确报告"该能力不可用"。
+# 这些是运行与复验所需，不是技能自身强制要求 —— 缺了只会让对应能力/测试不可用。
+
+# ── 运行必需 ───────────────────────────────────────────────
+# 用例工作簿读写、旧 XLSX 导入、Python 回退写入器（xlsx_fallback.py）
+# 缺失后果：2 个测试文件无法导入，整轮 unittest 少收 25 项，并新增 3 failures / 6 errors（实测）
+openpyxl>=3.0
+
+# PDF 解析（含渲染依赖）。缺失时 PDF 路径报告能力不可用并停止，DOCX 路径不受影响
+pdfplumber>=0.10
+Pillow>=9
+pypdfium2>=4
+
+# ── 复验所需（跑 tests/ 时） ───────────────────────────────
+# 加密 PDF 用例 test_password_pdf_reports_clear_failure 需要它
+# 缺失后果：1 项 ERROR（ModuleNotFoundError: No module named 'pypdf'）
+pypdf>=3
+
+# 解析复验生成内部临时 DOCX 检查文件
+python-docx>=1
+
+# ── 说明 ─────────────────────────────────────────────────
+# pytest 不是必需：测试是 unittest，用 `python3 -m unittest discover -s tests` 即可。
+# Node.js 与 @oai/artifact-tool 不在本文件里（非 Python 依赖），见 依赖说明.md。

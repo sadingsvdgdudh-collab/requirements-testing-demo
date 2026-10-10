@@ -1,0 +1,223 @@
+{
+  "schema_version": "1.0",
+  "module": "名称长度",
+  "code": "LEN",
+  "baseline": "history/20261006T235130416942Z-52005339-v1-before-rule-change",
+  "changes": {
+    "requirements": [
+      {
+        "id": "REQ_LEN_001",
+        "category": "revised",
+        "business_change": true,
+        "fields": [
+          "description"
+        ],
+        "before": {
+          "description": "英文字母名称最多20个字符，合法上限允许保存，超过上限显示指定提示且不创建商品。"
+        },
+        "after": {
+          "description": "英文字母名称最多30个字符，合法上限允许保存，超过上限显示指定提示且不创建商品。"
+        },
+        "interpretation": "参数/描述/关联差异需模型确认；字符串不同不直接证明业务意图改变。"
+      },
+      {
+        "id": "REQ_LEN_001",
+        "category": "source_evidence_changed",
+        "business_change": false,
+        "evidence_recheck": true,
+        "before": {
+          "file": "../input/商品名称_v1.md",
+          "lines": [
+            5,
+            5
+          ],
+          "quote": "商品名称最多允许20个字符。本例只验收由英文字母组成的名称；其他字段合法时，20个英文字母可以保存，21个或更多英文字母必须提示“商品名称最多20个字符”，且不创建商品。",
+          "images": []
+        },
+        "after": {
+          "file": "../input/商品名称_v2.md",
+          "lines": [
+            5,
+            5
+          ],
+          "quote": "商品名称最多允许30个字符。本例只验收由英文字母组成的名称；其他字段合法时，30个英文字母可以保存，31个或更多英文字母必须提示“商品名称最多30个字符”，且不创建商品。",
+          "images": []
+        }
+      },
+      {
+        "id": "REQ_LEN_002",
+        "category": "source_relocated",
+        "business_change": false,
+        "evidence_recheck": true,
+        "before": {
+          "file": "../input/商品名称_v1.md",
+          "lines": [
+            7,
+            7
+          ],
+          "quote": "商品名称不能为空。名称为空时，保存提示“请输入商品名称”，且不创建商品。",
+          "images": []
+        },
+        "after": {
+          "file": "../input/商品名称_v2.md",
+          "lines": [
+            7,
+            7
+          ],
+          "quote": "商品名称不能为空。名称为空时，保存提示“请输入商品名称”，且不创建商品。",
+          "images": []
+        }
+      },
+      {
+        "id": "REQ_LEN_001",
+        "category": "source_file_changed",
+        "business_change": false,
+        "evidence_recheck": true,
+        "source": "../input/商品名称_v2.md",
+        "error": null
+      },
+      {
+        "id": "REQ_LEN_002",
+        "category": "source_file_changed",
+        "business_change": false,
+        "evidence_recheck": true,
+        "source": "../input/商品名称_v2.md",
+        "error": null
+      }
+    ],
+    "acceptance_criteria": [
+      {
+        "id": "AC_LEN_001_01",
+        "category": "revised",
+        "business_change": true,
+        "fields": [
+          "text"
+        ],
+        "before": {
+          "text": "其他字段合法时，20个英文字母的名称可以保存商品。"
+        },
+        "after": {
+          "text": "其他字段合法时，30个英文字母的名称可以保存商品。"
+        },
+        "interpretation": "参数/描述/关联差异需模型确认；字符串不同不直接证明业务意图改变。"
+      },
+      {
+        "id": "AC_LEN_001_02",
+        "category": "revised",
+        "business_change": true,
+        "fields": [
+          "text"
+        ],
+        "before": {
+          "text": "21个或更多英文字母的名称提示‘商品名称最多20个字符’，且不创建商品。"
+        },
+        "after": {
+          "text": "31个或更多英文字母的名称提示‘商品名称最多30个字符’，且不创建商品。"
+        },
+        "interpretation": "参数/描述/关联差异需模型确认；字符串不同不直接证明业务意图改变。"
+      }
+    ],
+    "testpoints": [],
+    "cases": []
+  },
+  "affected_testpoints": [
+    {
+      "id": "TP_LEN_001",
+      "update_state": "needs_redesign",
+      "reasons": [
+        "关联REQ变化：REQ_LEN_001",
+        "关联AC变化：AC_LEN_001_01",
+        "需重新核对来源：REQ_LEN_001"
+      ],
+      "present": true,
+      "has_baseline": true
+    },
+    {
+      "id": "TP_LEN_002",
+      "update_state": "needs_redesign",
+      "reasons": [
+        "关联REQ变化：REQ_LEN_001",
+        "关联AC变化：AC_LEN_001_02",
+        "需重新核对来源：REQ_LEN_001"
+      ],
+      "present": true,
+      "has_baseline": true
+    },
+    {
+      "id": "TP_LEN_003",
+      "update_state": "needs_evidence_check",
+      "reasons": [
+        "需重新核对来源：REQ_LEN_002"
+      ],
+      "present": true,
+      "has_baseline": true
+    },
+    {
+      "id": "TP_LEN_004",
+      "update_state": "needs_evidence_check",
+      "reasons": [
+        "需重新核对来源：REQ_LEN_002"
+      ],
+      "present": true,
+      "has_baseline": true
+    }
+  ],
+  "affected_cases": [
+    {
+      "id": "TC_LEN_001",
+      "update_state": "needs_redesign",
+      "reasons": [
+        "关联REQ变化：REQ_LEN_001",
+        "关联AC变化：AC_LEN_001_01",
+        "经测试点传递：TP_LEN_001",
+        "需重新核对来源：REQ_LEN_001"
+      ],
+      "present": true,
+      "has_baseline": true
+    },
+    {
+      "id": "TC_LEN_002",
+      "update_state": "needs_redesign",
+      "reasons": [
+        "关联REQ变化：REQ_LEN_001",
+        "关联AC变化：AC_LEN_001_02",
+        "经测试点传递：TP_LEN_002",
+        "需重新核对来源：REQ_LEN_001"
+      ],
+      "present": true,
+      "has_baseline": true
+    },
+    {
+      "id": "TC_LEN_003",
+      "update_state": "needs_evidence_check",
+      "reasons": [
+        "需重新核对来源：REQ_LEN_002",
+        "需核对测试点证据：TP_LEN_003"
+      ],
+      "present": true,
+      "has_baseline": true
+    },
+    {
+      "id": "TC_LEN_004",
+      "update_state": "needs_evidence_check",
+      "reasons": [
+        "需重新核对来源：REQ_LEN_002",
+        "需核对测试点证据：TP_LEN_004"
+      ],
+      "present": true,
+      "has_baseline": true
+    }
+  ],
+  "unaffected_testpoints": [],
+  "unaffected_cases": [],
+  "new_acceptance_criteria_to_cover": [],
+  "current_fingerprints": {
+    "REQ清单.json": "41c48fd9a417d0b37f5bf19018050060f5bb62ee33a6e2c9277a23cf0be65ab5",
+    "测试点数据.json": "1361defd7a3a10981a2603371d7c2eba9ce93f58b3707c595fa943eba255f1b1",
+    "用例数据.json": "861ee22b2d527af241cafb3784aae882ea5acc1cb4a8d5091286a1582cc8ee4e",
+    "解析.md": "5428e98da4db30c487a64c992476b54b380045d8dfa2e202c8e18049f417d7d9",
+    "需求规范.md": "3308d27071b03947d9e6fb50585063a96158a72a6063269158443d5893f2b952"
+  },
+  "analysis_only": true,
+  "note": "结构及依赖分析。来源移行只要求核对证据；业务意图、参数含义、测试充分性需模型和人工判断。"
+}

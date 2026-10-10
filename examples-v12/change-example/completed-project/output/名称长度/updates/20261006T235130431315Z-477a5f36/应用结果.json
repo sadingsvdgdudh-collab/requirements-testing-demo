@@ -1,0 +1,15 @@
+{
+  "schema_version": "1.0",
+  "applied": true,
+  "backup": "history/20261006T235130480540Z-d8a48de5-before-update",
+  "archived": [
+    "测试点.md",
+    "测试点.xmind",
+    "测试点覆盖率报告.md",
+    "测试点覆盖率数据.json",
+    "覆盖率数据.json",
+    "评审报告.md",
+    "详细用例.xlsx",
+    "需求覆盖率报告.md"
+  ]
+}

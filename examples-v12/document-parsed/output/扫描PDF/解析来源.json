@@ -1,0 +1,111 @@
+{
+  "schema_version": "1.0",
+  "module": "扫描PDF",
+  "original": {
+    "file": "input/任务规则扫描_01f52622b9.pdf",
+    "sha256": "01f52622b9418f19ca4e0f6a8e196f5af22a6d2f2412ae4937cb04748fbe2ca1",
+    "format": ".pdf"
+  },
+  "draft": "input/任务规则扫描_01f52622b9__parsed.md",
+  "draft_sha256": "a301789a6d78e461923bf718a36c5f0021c2ce7c9b44dc74999ff332bb5c341d",
+  "blocks": [
+    {
+      "kind": "page",
+      "location": {
+        "page": 1
+      },
+      "lines": [
+        5,
+        5
+      ]
+    },
+    {
+      "kind": "image",
+      "location": {
+        "page": 1
+      },
+      "lines": [
+        7,
+        7
+      ],
+      "asset": "image_c2b2b0ad93566328.png"
+    },
+    {
+      "kind": "ocr",
+      "location": {
+        "page": 1
+      },
+      "lines": [
+        9,
+        12
+      ],
+      "ocr": {
+        "engine": "apple-vision",
+        "height": 1651,
+        "languages": [
+          "zh-Hans",
+          "en-US"
+        ],
+        "lines": [
+          {
+            "bbox": [
+              0.09962406399497938,
+              0.1700581393859989,
+              0.16917292675628187,
+              0.0188953489714615
+            ],
+            "confidence": 1,
+            "text": "游戏任务奖励规则"
+          },
+          {
+            "bbox": [
+              0.09774436497554675,
+              0.20930232521680425,
+              0.28759397309401935,
+              0.020348837531507735
+            ],
+            "confidence": 1,
+            "text": "任务完成3次，可领取10金币。"
+          },
+          {
+            "bbox": [
+              0.0977443578690505,
+              0.24999999992974042,
+              0.3270676711509968,
+              0.020581113801452666
+            ],
+            "confidence": 0.5,
+            "text": "任务次数不足3：提示任务未完成。"
+          },
+          {
+            "bbox": [
+              0.09774436211825804,
+              0.2921511627871617,
+              0.15789473243641627,
+              0.018986851482068023
+            ],
+            "confidence": 0.5,
+            "text": "每日限领取1次。"
+          }
+        ],
+        "needs_review": true,
+        "width": 1275
+      },
+      "needs_review": true
+    }
+  ],
+  "images": [
+    {
+      "name": "image_c2b2b0ad93566328.png",
+      "location": {
+        "page": 1
+      },
+      "sha256": "c2b2b0ad93566328fad20fbe3dfd45e72409eb9144dcbcf668ff5fad44d76549"
+    }
+  ],
+  "needs_review": true,
+  "warnings": [
+    "{'page': 1}：OCR转录需核对文字、数字与阅读顺序，置信度不等于准确率。"
+  ],
+  "scope": "文件转录，不是语义需求提取或真实系统测试"
+}

@@ -1,0 +1,22 @@
+{
+  "schema_version": "1.0",
+  "module": "名称长度",
+  "code": "LEN",
+  "requirements": [
+    {
+      "id": "REQ_LEN_001", "title": "商品名称长度上限", "description": "英文字母名称最多20个字符，合法上限允许保存，超过上限显示指定提示且不创建商品。", "kind": "constraint", "status": "active",
+      "acceptance_criteria": [
+        {"id": "AC_LEN_001_01", "text": "其他字段合法时，20个英文字母的名称可以保存商品。"},
+        {"id": "AC_LEN_001_02", "text": "21个或更多英文字母的名称提示‘商品名称最多20个字符’，且不创建商品。"}
+      ],
+      "source": {"file": "../input/商品名称_v1.md", "lines": [5, 5], "quote": "商品名称最多允许20个字符。本例只验收由英文字母组成的名称；其他字段合法时，20个英文字母可以保存，21个或更多英文字母必须提示“商品名称最多20个字符”，且不创建商品。", "images": []}
+    },
+    {
+      "id": "REQ_LEN_002", "title": "商品名称必填", "description": "名称为空时显示指定提示且不创建商品。", "kind": "constraint", "status": "active",
+      "acceptance_criteria": [{"id": "AC_LEN_002_01", "text": "名称为空时，保存提示‘请输入商品名称’，且不创建商品。"}],
+      "source": {"file": "../input/商品名称_v1.md", "lines": [7, 7], "quote": "商品名称不能为空。名称为空时，保存提示“请输入商品名称”，且不创建商品。", "images": []}
+    }
+  ],
+  "questions": [],
+  "images": []
+}

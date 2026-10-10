@@ -1,0 +1,24 @@
+{
+  "sheets": [
+    {
+      "name": "汇总",
+      "values": [{"range": "A2:B2", "data": [["商品数据汇总", null]]}, {"range": "A4:B5", "data": [["指标", "金额（元）"], ["总金额", null]]}],
+      "formulas": [{"range": "B5", "data": [["=SUM('数据'!D5:D7)"]]}],
+      "formats": [{"range": "A2:B2", "format": {"font": {"name": "Arial", "size": 14, "bold": true}}}, {"range": "A4:B4", "format": {"fill": "#24476B", "font": {"name": "Arial", "size": 10, "bold": true, "color": "#FFFFFF"}, "horizontalAlignment": "center"}}, {"range": "B5", "format": {"numberFormat": "\"¥\"#,##0.00"}}],
+      "column_widths": [{"range": "A1:A8", "width": 23}, {"range": "B1:B8", "width": 20}]
+    },
+    {
+      "name": "数据",
+      "values": [{"range": "A2:E2", "data": [["商品明细", null, null, null, null]]}, {"range": "A4:E7", "data": [["商品", "数量", "单价（元）", "金额（元）", "记录日期"], ["商品A", 2, 10, null, {"type": "date", "value": "2026-10-01"}], ["商品B", 3, 20, null, {"type": "date", "value": "2026-10-02"}], ["商品C", 0, 30, null, {"type": "date", "value": "2026-10-03"}]]}],
+      "formulas": [{"range": "D5:D7", "data": [["=B5*C5"], ["=B6*C6"], ["=B7*C7"]]}],
+      "formats": [{"range": "A2:E2", "format": {"font": {"name": "Arial", "size": 14, "bold": true}}}, {"range": "A4:E4", "format": {"fill": "#24476B", "font": {"name": "Arial", "size": 10, "bold": true, "color": "#FFFFFF"}, "horizontalAlignment": "center"}}, {"range": "C5:D7", "format": {"numberFormat": "\"¥\"#,##0.00"}}],
+      "column_widths": [{"range": "A1:E8", "width": 19}],
+      "row_heights": [{"range": "A4:E7", "height": 24}],
+      "freeze_rows": 4,
+      "tables": [{"range": "A4:E7", "name": "ProductData", "style": "TableStyleMedium2"}],
+      "charts": [{"type": "bar", "range": "A4:B7", "title": "商品数量", "position": ["G3", "N16"], "colors": ["#4472C4"]}]
+    }
+  ],
+  "checks": [{"sheet": "数据", "cell": "D5", "value": 20}, {"sheet": "汇总", "cell": "B5", "value": 80}],
+  "preview_ranges": {"汇总": "A1:D8", "数据": "A1:N17"}
+}

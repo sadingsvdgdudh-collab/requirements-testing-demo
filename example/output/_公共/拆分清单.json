@@ -1,0 +1,5 @@
+{
+  "schema_version": "1.0",
+  "modules": [{"name": "商品管理", "code": "PRO", "path": "商品管理/解析.md"}],
+  "sources": [{"path": "../input/新增商品.md", "segments": [{"lines": [1, 20], "targets": ["商品管理/解析.md"]}]}]
+}

@@ -1,0 +1,87 @@
+{
+  "schema_version": "1.0",
+  "module": "商品管理",
+  "code": "IMP",
+  "requirements": [
+    {
+      "id": "REQ_IMP_001",
+      "title": "商品名称必填",
+      "description": "管理员新增商品时，名称为空不能保存，并显示名称必填提示。",
+      "kind": "functional",
+      "status": "",
+      "acceptance_criteria": [
+        {
+          "id": "AC_IMP_001_01",
+          "text": "商品名称为空时，点击保存提示“请输入商品名称”。"
+        },
+        {
+          "id": "AC_IMP_001_02",
+          "text": "商品名称为空时，点击保存不创建商品。"
+        }
+      ],
+      "source": {
+        "file": "商品管理/imports/20261006T235953700986Z/input/导入底稿.md",
+        "lines": [
+          9,
+          16
+        ],
+        "quote": "管理员已登录后台并打开新增商品页面。\n商品名称为空时，点击保存提示“请输入商品名称”，并且不创建商品。",
+        "images": []
+      },
+      "legacy": {
+        "location": "$.modules[0].requirements[0]",
+        "record": {
+          "requirement_id": "REQ-CH3-001",
+          "requirement_name": "商品名称必填",
+          "type": "功能需求 (FR)",
+          "module": "商品管理",
+          "description": "管理员新增商品时，名称为空不能保存，并显示名称必填提示。",
+          "detailed_description": "管理员已登录后台并打开新增商品页面。\n商品名称为空时，点击保存提示“请输入商品名称”，并且不创建商品。",
+          "testable_elements": {
+            "trigger": "管理员在新增商品页面点击保存",
+            "inputs": [
+              "商品名称为空"
+            ],
+            "action": "提交新增商品",
+            "expected_output": "提示“请输入商品名称”，并且不创建商品",
+            "verification_points": [
+              "核对提示文字",
+              "核对商品列表未新增记录"
+            ]
+          },
+          "acceptance_criteria": [
+            "商品名称为空时，点击保存提示“请输入商品名称”。",
+            "商品名称为空时，点击保存不创建商品。"
+          ],
+          "related_images": [],
+          "source_page": "本文件为格式演示，没有原始策划案页码",
+          "source_paragraphs": []
+        }
+      },
+      "missing_fields": [
+        "status 缺失或状态待确认；请明确active/blocked/deprecated"
+      ]
+    }
+  ],
+  "questions": [],
+  "images": [],
+  "draft": true,
+  "import_status": "incomplete",
+  "missing_fields": [
+    {
+      "id": "REQ_IMP_001",
+      "location": "$.modules[0].requirements[0]",
+      "fields": [
+        "status 缺失或状态待确认；请明确active/blocked/deprecated"
+      ]
+    }
+  ],
+  "imported_source": {
+    "file": "旧需求.json",
+    "sha256": "1ffcb1a97fa9d7e471cce5e7b1b0495d3caf270418b15b5a1b435e168d452b8a",
+    "kind": "requirements",
+    "basis": "existing_structured_material"
+  },
+  "import_batch": "20261006T235953700986Z",
+  "validation_errors": []
+}

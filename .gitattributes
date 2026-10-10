@@ -1,0 +1,19 @@
+# 让 git 正确处理文本换行与中文文件名
+* text=auto
+
+# 脚本统一 LF
+*.py   text eol=lf
+*.sh   text eol=lf
+*.mjs  text eol=lf
+*.swift text eol=lf
+
+# 二进制/产物不做文本转换
+*.png  binary
+*.jpg  binary
+*.jpeg binary
+*.webp binary
+*.xlsx binary
+*.xmind binary
+*.docx binary
+*.pdf  binary
+*.zip  binary

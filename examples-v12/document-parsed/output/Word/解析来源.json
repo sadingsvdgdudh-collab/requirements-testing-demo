@@ -1,0 +1,201 @@
+{
+  "schema_version": "1.0",
+  "module": "Word",
+  "original": {
+    "file": "input/任务规则_14415a3fa1.docx",
+    "sha256": "14415a3fa18971d1e84bf688abd4d87928add7347cf10d49b7437aaf801c979b",
+    "format": ".docx"
+  },
+  "draft": "input/任务规则_14415a3fa1__parsed.md",
+  "draft_sha256": "6cf07e47abdfeba60238b1bffd1f6f0a966c1709d9df0964be243b2f0e0d2440",
+  "blocks": [
+    {
+      "kind": "paragraph",
+      "location": {
+        "part": "word/document.xml",
+        "body_index": 1
+      },
+      "lines": [
+        5,
+        5
+      ]
+    },
+    {
+      "kind": "paragraph",
+      "location": {
+        "part": "word/document.xml",
+        "body_index": 2
+      },
+      "lines": [
+        7,
+        7
+      ]
+    },
+    {
+      "kind": "paragraph",
+      "location": {
+        "part": "word/document.xml",
+        "body_index": 3
+      },
+      "lines": [
+        9,
+        9
+      ]
+    },
+    {
+      "kind": "paragraph",
+      "location": {
+        "part": "word/document.xml",
+        "body_index": 4
+      },
+      "lines": [
+        11,
+        11
+      ]
+    },
+    {
+      "kind": "table",
+      "location": {
+        "part": "word/document.xml",
+        "body_index": 5
+      },
+      "lines": [
+        13,
+        17
+      ],
+      "rows": [
+        [
+          "条件",
+          "奖励",
+          "提示"
+        ],
+        [
+          "任务次数不足3",
+          "0金币",
+          "任务未完成"
+        ],
+        [
+          "任务次数达到3",
+          "10金币",
+          "领取成功"
+        ],
+        [
+          "每日限领取1次。",
+          null,
+          null
+        ]
+      ],
+      "merges": [
+        {
+          "row": 4,
+          "column": 1,
+          "colspan": 3,
+          "vertical": null
+        }
+      ]
+    },
+    {
+      "kind": "paragraph",
+      "location": {
+        "part": "word/document.xml",
+        "body_index": 6
+      },
+      "lines": [
+        19,
+        19
+      ]
+    },
+    {
+      "kind": "image",
+      "location": {
+        "part": "word/document.xml",
+        "body_index": 7
+      },
+      "lines": [
+        21,
+        21
+      ],
+      "asset": "image_f464b41ee9caf34f.png"
+    },
+    {
+      "kind": "ocr",
+      "location": {
+        "part": "word/document.xml",
+        "body_index": 7
+      },
+      "lines": [
+        23,
+        26
+      ],
+      "ocr": {
+        "engine": "apple-vision",
+        "height": 460,
+        "languages": [
+          "zh-Hans",
+          "en-US"
+        ],
+        "lines": [
+          {
+            "bbox": [
+              0.03924419123973146,
+              0.1017699104443146,
+              0.1947674342564174,
+              0.07964601931364634
+            ],
+            "confidence": 1,
+            "text": "游戏任务奖励规则"
+          },
+          {
+            "bbox": [
+              0.041666678047339964,
+              0.27826086945639883,
+              0.3291666521344866,
+              0.08913043478260874
+            ],
+            "confidence": 1,
+            "text": "任务完成3次，可领取10金币。"
+          },
+          {
+            "bbox": [
+              0.03924418839026158,
+              0.4690265476440617,
+              0.375,
+              0.07964601931364634
+            ],
+            "confidence": 0.5,
+            "text": "任务次数不足3：提示任务未完成。"
+          },
+          {
+            "bbox": [
+              0.03924418869534727,
+              0.6543478265507898,
+              0.18023255484444756,
+              0.08043478260869563
+            ],
+            "confidence": 0.5,
+            "text": "每日限领取1次。"
+          }
+        ],
+        "needs_review": true,
+        "width": 1400
+      },
+      "needs_review": true
+    }
+  ],
+  "images": [
+    {
+      "name": "image_f464b41ee9caf34f.png",
+      "location": {
+        "part": "word/document.xml",
+        "body_index": 7
+      },
+      "sha256": "f464b41ee9caf34ffa1963c090c069084b538038902c3e4032e33adc4a1ddc93"
+    }
+  ],
+  "needs_review": true,
+  "warnings": [
+    "正文对象5：合并单元格结构已登记，Markdown空位不代表原文缺失。",
+    "{'part': 'word/document.xml', 'body_index': 7}：OCR转录需核对文字、数字与阅读顺序，置信度不等于准确率。"
+  ],
+  "scope": "文件转录，不是语义需求提取或真实系统测试"
+}

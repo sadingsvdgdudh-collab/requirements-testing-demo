@@ -1,0 +1,30 @@
+{
+  "schema_version": "1.0",
+  "module": "订单优惠",
+  "code": "ORD",
+  "scope": "已确认范围（active需求）",
+  "status": "passed",
+  "requirement_coverage": {
+    "total": 7,
+    "covered": 7,
+    "rate": 1.0,
+    "missing": []
+  },
+  "acceptance_coverage": {
+    "total": 10,
+    "covered": 10,
+    "rate": 1.0,
+    "missing": []
+  },
+  "excluded": {
+    "blocked": [
+      {
+        "id": "REQ_ORD_008",
+        "title": "提交失败重试的扣券安全规则",
+        "reason": "待澄清：Q_ORD_001"
+      }
+    ],
+    "deprecated": []
+  },
+  "point_count": 8
+}

@@ -1,0 +1,24 @@
+{
+  "schema_version": "1.0",
+  "module": "名称长度",
+  "code": "LEN",
+  "scope": "已确认范围（active需求）",
+  "status": "passed",
+  "case_count": 4,
+  "requirement_coverage": {
+    "total": 2,
+    "covered": 2,
+    "rate": 1.0,
+    "missing": []
+  },
+  "acceptance_coverage": {
+    "total": 3,
+    "covered": 3,
+    "rate": 1.0,
+    "missing": []
+  },
+  "excluded": {
+    "blocked": [],
+    "deprecated": []
+  }
+}

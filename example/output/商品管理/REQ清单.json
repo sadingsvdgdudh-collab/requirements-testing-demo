@@ -1,0 +1,51 @@
+{
+  "schema_version": "1.0",
+  "module": "商品管理",
+  "code": "PRO",
+  "requirements": [
+    {
+      "id": "REQ_PRO_001", "title": "商品名称必填", "description": "名称为空时阻止创建并显示指定提示。", "kind": "constraint", "status": "active",
+      "acceptance_criteria": [{"id": "AC_PRO_001_01", "text": "名称为空时，保存提示‘请输入商品名称’，且不创建商品。"}],
+      "source": {"file": "../input/新增商品.md", "lines": [7, 7], "quote": "商品名称不能为空。名称为空时，点击保存提示“请输入商品名称”，不创建商品。", "images": []}
+    },
+    {
+      "id": "REQ_PRO_002", "title": "价格必须为正数", "description": "价格必须大于0，等于0或为负数时阻止创建。", "kind": "constraint", "status": "active",
+      "acceptance_criteria": [
+        {"id": "AC_PRO_002_01", "text": "价格等于0时，保存提示‘请输入大于0且最多两位小数的价格’，且不创建商品。"},
+        {"id": "AC_PRO_002_02", "text": "价格为负数时，保存提示‘请输入大于0且最多两位小数的价格’，且不创建商品。"},
+        {"id": "AC_PRO_002_03", "text": "其他字段合法且价格为正数、未超过两位小数时，可以保存商品。"}
+      ],
+      "source": {"file": "../input/新增商品.md", "lines": [10, 14], "quote": "商品价格必须大于0，最多保留两位小数。", "images": []}
+    },
+    {
+      "id": "REQ_PRO_003", "title": "价格小数精度", "description": "价格最多保留两位小数。", "kind": "constraint", "status": "active",
+      "acceptance_criteria": [
+        {"id": "AC_PRO_003_01", "text": "其他字段合法时，整数、一位小数、两位小数的正价格均可以保存。"},
+        {"id": "AC_PRO_003_02", "text": "价格超过两位小数时，保存提示‘请输入大于0且最多两位小数的价格’，且不创建商品。"}
+      ],
+      "source": {"file": "../input/新增商品.md", "lines": [10, 14], "quote": "商品价格必须大于0，最多保留两位小数。", "images": []}
+    },
+    {
+      "id": "REQ_PRO_004", "title": "商品价格必填", "description": "价格未填写时阻止创建并显示指定提示。", "kind": "constraint", "status": "active",
+      "acceptance_criteria": [{"id": "AC_PRO_004_01", "text": "价格为空时，保存提示‘请输入大于0且最多两位小数的价格’，且不创建商品。"}],
+      "source": {"file": "../input/新增商品.md", "lines": [11, 11], "quote": "价格未填写、等于0、为负数或超过两位小数时，点击保存提示“请输入大于0且最多两位小数的价格”，不创建商品。", "images": []}
+    },
+    {
+      "id": "REQ_PRO_005", "title": "正常保存商品", "description": "合法名称和价格保存后显示成功提示并在列表展示数据。", "kind": "functional", "status": "active",
+      "acceptance_criteria": [
+        {"id": "AC_PRO_005_01", "text": "名称和价格合法时，保存提示‘保存成功’。"},
+        {"id": "AC_PRO_005_02", "text": "保存后，商品列表显示本次填写的名称和价格。"}
+      ],
+      "source": {"file": "../input/新增商品.md", "lines": [14, 14], "quote": "商品名称和价格合法时，点击保存提示“保存成功”，商品列表显示本次填写的名称和价格。", "images": []}
+    },
+    {
+      "id": "REQ_PRO_006", "title": "取消新增", "description": "取消后返回商品列表且不创建商品。", "kind": "functional", "status": "active",
+      "acceptance_criteria": [{"id": "AC_PRO_006_01", "text": "点击取消返回商品列表，且不创建本次商品。"}],
+      "source": {"file": "../input/新增商品.md", "lines": [17, 17], "quote": "点击取消返回商品列表，不创建商品。", "images": []}
+    }
+  ],
+  "questions": [
+    {"id": "Q_PRO_001", "priority": "P1", "status": "open", "text": "重名限制、名称长度上限、价格上限、网络故障及并发行为未定义，需要补充规则。", "affected_requirements": ["REQ_PRO_001", "REQ_PRO_002", "REQ_PRO_005"], "resolution": ""}
+  ],
+  "images": []
+}

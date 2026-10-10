@@ -1,0 +1,122 @@
+{
+  "schema_version": "1.0",
+  "module": "订单优惠",
+  "code": "ODC",
+  "requirements": [
+    {
+      "id": "REQ_ODC_001",
+      "title": "订单确认页展示三类金额",
+      "description": "已登录用户在订单确认页可以查看商品金额、优惠金额和实付金额。",
+      "kind": "functional",
+      "status": "active",
+      "acceptance_criteria": [
+        {"id": "AC_ODC_001_01", "text": "已登录用户打开订单确认页时，可以查看该订单的商品金额。"},
+        {"id": "AC_ODC_001_02", "text": "已登录用户打开订单确认页时，可以查看该订单的优惠金额。"},
+        {"id": "AC_ODC_001_03", "text": "已登录用户打开订单确认页时，可以查看该订单的实付金额。"}
+      ],
+      "source": {"file": "../input/订单优惠.md", "lines": [4, 4], "quote": "已登录用户在订单确认页查看商品金额、优惠金额和实付金额。", "images": []}
+    },
+    {
+      "id": "REQ_ODC_002",
+      "title": "满100减10且每笔封顶10元",
+      "description": "每笔订单商品金额满100元时享受10元满减，每笔订单的满减金额最多10元。此上限不被解释成包含优惠券的总优惠上限。",
+      "kind": "constraint",
+      "status": "active",
+      "acceptance_criteria": [
+        {"id": "AC_ODC_002_01", "text": "订单商品金额大于或等于100元时，满减优惠为10元。"},
+        {"id": "AC_ODC_002_02", "text": "即使商品金额达到多个100元，单笔订单满减仍为10元，不按100元倍数累计。"}
+      ],
+      "source": {"file": "../input/订单优惠.md", "lines": [7, 7], "quote": "每笔订单商品金额满100元减10元，每笔最多减10元。", "images": []}
+    },
+    {
+      "id": "REQ_ODC_003",
+      "title": "未满100元不享受满减",
+      "description": "商品金额小于100元时没有满减优惠。",
+      "kind": "constraint",
+      "status": "active",
+      "acceptance_criteria": [
+        {"id": "AC_ODC_003_01", "text": "商品金额小于100元时，满减优惠金额为0元。"}
+      ],
+      "source": {"file": "../input/订单优惠.md", "lines": [8, 8], "quote": "商品金额未满100元时没有满减优惠。", "images": []}
+    },
+    {
+      "id": "REQ_ODC_004",
+      "title": "确认页显示优惠后的实付金额",
+      "description": "订单确认页显示优惠后的实付金额；仅应用原文满减且没有其他金额调整的测试订单，实付金额为商品金额减去满减金额。",
+      "kind": "functional",
+      "status": "active",
+      "acceptance_criteria": [
+        {"id": "AC_ODC_004_01", "text": "仅应用满减且没有其他金额调整的订单，商品金额大于或等于100元时，确认页实付金额显示为商品金额减10元。"},
+        {"id": "AC_ODC_004_02", "text": "没有其他优惠或金额调整的订单，商品金额小于100元时，确认页实付金额显示为商品金额。"}
+      ],
+      "source": {"file": "../input/订单优惠.md", "lines": [7, 8], "quote": "优惠后实付金额显示在订单确认页。", "images": []}
+    },
+    {
+      "id": "REQ_ODC_005",
+      "title": "取消订单返回购物车且不完成付款",
+      "description": "用户取消订单时返回购物车，不完成付款。",
+      "kind": "functional",
+      "status": "active",
+      "acceptance_criteria": [
+        {"id": "AC_ODC_005_01", "text": "在订单确认页取消订单后，用户返回购物车。"},
+        {"id": "AC_ODC_005_02", "text": "取消订单这条流程不会使该订单完成付款。"}
+      ],
+      "source": {"file": "../input/订单优惠.md", "lines": [11, 11], "quote": "用户取消订单时返回购物车，不完成付款。", "images": []}
+    },
+    {
+      "id": "REQ_ODC_006",
+      "title": "选择可用优惠券后提交订单可点击",
+      "description": "用户选择可用优惠券后可以点击“提交订单”；该需求不规定提交成功、扣券时机或优惠券金额。",
+      "kind": "functional",
+      "status": "active",
+      "acceptance_criteria": [
+        {"id": "AC_ODC_006_01", "text": "用户在订单确认页选择一张系统标记可用的优惠券后，“提交订单”处于可点击状态并允许点击。"}
+      ],
+      "source": {"file": "../input/订单优惠.md", "lines": [14, 14], "quote": "用户选择可用优惠券后可以点击“提交订单”。", "images": []}
+    },
+    {
+      "id": "REQ_ODC_007",
+      "title": "提交失败重试时的扣券安全规则",
+      "description": "提交订单失败后重试是否再次扣减优惠券尚未确定；需先确认后才能定义可观察的扣券结果。保留原文未决范围，不自定幂等、返券或重复扣券规则。",
+      "kind": "constraint",
+      "status": "blocked",
+      "acceptance_criteria": [],
+      "source": {"file": "../input/订单优惠.md", "lines": [14, 14], "quote": "提交订单失败后重试是否再次扣减优惠券尚未确定，该规则影响扣券安全，需要先确认。", "images": []}
+    }
+  ],
+  "questions": [
+    {
+      "id": "Q_ODC_001",
+      "priority": "P0",
+      "status": "open",
+      "text": "提交失败后重试是否再次扣减优惠券？请确认首次提交、失败后、重试后的扣券状态及可核对结果，明确扣券安全规则。",
+      "affected_requirements": ["REQ_ODC_007"],
+      "resolution": ""
+    },
+    {
+      "id": "Q_ODC_002",
+      "priority": "P1",
+      "status": "open",
+      "text": "优惠券的可用判定条件是什么？当前只使用系统已标记可用的测试券，不验证可用性计算、过期或不满足条件的处理。",
+      "affected_requirements": ["REQ_ODC_006"],
+      "resolution": ""
+    },
+    {
+      "id": "Q_ODC_003",
+      "priority": "P1",
+      "status": "open",
+      "text": "优惠券金额、与满减的叠加顺序及叠加后的金额计算如何规定？目前金额用例只覆盖未选择券、仅有满减且没有其他金额调整的订单。",
+      "affected_requirements": ["REQ_ODC_001", "REQ_ODC_002", "REQ_ODC_004", "REQ_ODC_006"],
+      "resolution": ""
+    },
+    {
+      "id": "Q_ODC_004",
+      "priority": "P1",
+      "status": "open",
+      "text": "商品金额及显示金额的允许精度、最小货币单位、舍入和显示格式如何规定？当前使用整数元，不将99.99元等小数边界或固定小数位写成正式预期。",
+      "affected_requirements": ["REQ_ODC_001", "REQ_ODC_002", "REQ_ODC_003", "REQ_ODC_004"],
+      "resolution": ""
+    }
+  ],
+  "images": []
+}

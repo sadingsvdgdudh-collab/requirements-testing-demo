@@ -1,0 +1,17 @@
+{
+  "schema_version": "1.0",
+  "module": "商品管理",
+  "code": "IMP",
+  "REQ": {
+    "REQ-CH3-001": "REQ_IMP_001",
+    "REQ_IMP_001": "REQ_IMP_001"
+  },
+  "AC": {
+    "REQ-CH3-001::criterion:1": "AC_IMP_001_01",
+    "REQ-CH3-001::criterion:2": "AC_IMP_001_02"
+  },
+  "TP": {
+    "TP-CH3-001-001": "TP_IMP_001",
+    "TP-CH3-001-002": "TP_IMP_002"
+  }
+}

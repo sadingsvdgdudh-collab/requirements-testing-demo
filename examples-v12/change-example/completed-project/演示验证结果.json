@@ -1,0 +1,29 @@
+{
+  "schema_version": "1.0",
+  "example_only": true,
+  "software_executed": false,
+  "formal_business_review_completed": false,
+  "requirement_count": 2,
+  "testpoint_count": 4,
+  "case_count": 4,
+  "original_files_unchanged": true,
+  "unresolved_draft_rejected": true,
+  "changed_rule": "名称上限20→30个字符",
+  "redesigned_cases": [
+    "TC_LEN_001",
+    "TC_LEN_002"
+  ],
+  "evidence_only_cases": [
+    "TC_LEN_003",
+    "TC_LEN_004"
+  ],
+  "preserved_case_id": "TC_LEN_001",
+  "execution_records_preserved": true,
+  "baseline": "history/20261006T235130416942Z-52005339-v1-before-rule-change",
+  "update_batch": "updates/20261006T235130431315Z-477a5f36",
+  "backup": "history/20261006T235130480540Z-d8a48de5-before-update",
+  "old_excel_generated_and_archived": true,
+  "old_xmind_archived": true,
+  "old_review_archived": true,
+  "next_action": "重生成派生资料并独立评审，尚无v2执行结果。"
+}

@@ -1,0 +1,5 @@
+{
+  "operations": [{"op": "set_values", "sheet": "数据", "range": "B5", "data": [[5]]}],
+  "checks": [{"sheet": "数据", "cell": "D5", "value": 50}, {"sheet": "汇总", "cell": "B5", "value": 110}],
+  "preview_ranges": {"数据": "A1:N17"}
+}

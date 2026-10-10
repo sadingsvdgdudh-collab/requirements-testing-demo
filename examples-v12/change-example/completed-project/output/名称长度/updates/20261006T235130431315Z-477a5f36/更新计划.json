@@ -1,0 +1,113 @@
+{
+  "schema_version": "1.0",
+  "draft": false,
+  "module": "名称长度",
+  "code": "LEN",
+  "batch": "20261006T235130431315Z-477a5f36",
+  "update_state": "resolved",
+  "base_fingerprints": {
+    "REQ清单.json": "41c48fd9a417d0b37f5bf19018050060f5bb62ee33a6e2c9277a23cf0be65ab5",
+    "测试点数据.json": "1361defd7a3a10981a2603371d7c2eba9ce93f58b3707c595fa943eba255f1b1",
+    "用例数据.json": "861ee22b2d527af241cafb3784aae882ea5acc1cb4a8d5091286a1582cc8ee4e",
+    "解析.md": "5428e98da4db30c487a64c992476b54b380045d8dfa2e202c8e18049f417d7d9",
+    "需求规范.md": "3308d27071b03947d9e6fb50585063a96158a72a6063269158443d5893f2b952"
+  },
+  "base_source_fingerprints": {
+    "../input/商品名称_v2.md": "076cb9645f88a8051a9b8f21c1d7a46759491b9434a2805da15c29a866cb2764"
+  },
+  "baseline": "history/20261006T235130416942Z-52005339-v1-before-rule-change",
+  "baseline_manifest_sha256": "bc45c6a3d79ad25410794c8e405a270cd6a5ca3513d0c7fd5969396099c7f214",
+  "retirement_decisions": [],
+  "affected_items": {
+    "testpoints": {
+      "TP_LEN_001": {
+        "id": "TP_LEN_001",
+        "update_state": "needs_redesign",
+        "reasons": [
+          "关联REQ变化：REQ_LEN_001",
+          "关联AC变化：AC_LEN_001_01",
+          "需重新核对来源：REQ_LEN_001"
+        ],
+        "present": true,
+        "has_baseline": true
+      },
+      "TP_LEN_002": {
+        "id": "TP_LEN_002",
+        "update_state": "needs_redesign",
+        "reasons": [
+          "关联REQ变化：REQ_LEN_001",
+          "关联AC变化：AC_LEN_001_02",
+          "需重新核对来源：REQ_LEN_001"
+        ],
+        "present": true,
+        "has_baseline": true
+      },
+      "TP_LEN_003": {
+        "id": "TP_LEN_003",
+        "update_state": "needs_evidence_check",
+        "reasons": [
+          "需重新核对来源：REQ_LEN_002"
+        ],
+        "present": true,
+        "has_baseline": true
+      },
+      "TP_LEN_004": {
+        "id": "TP_LEN_004",
+        "update_state": "needs_evidence_check",
+        "reasons": [
+          "需重新核对来源：REQ_LEN_002"
+        ],
+        "present": true,
+        "has_baseline": true
+      }
+    },
+    "cases": {
+      "TC_LEN_001": {
+        "id": "TC_LEN_001",
+        "update_state": "needs_redesign",
+        "reasons": [
+          "关联REQ变化：REQ_LEN_001",
+          "关联AC变化：AC_LEN_001_01",
+          "经测试点传递：TP_LEN_001",
+          "需重新核对来源：REQ_LEN_001"
+        ],
+        "present": true,
+        "has_baseline": true
+      },
+      "TC_LEN_002": {
+        "id": "TC_LEN_002",
+        "update_state": "needs_redesign",
+        "reasons": [
+          "关联REQ变化：REQ_LEN_001",
+          "关联AC变化：AC_LEN_001_02",
+          "经测试点传递：TP_LEN_002",
+          "需重新核对来源：REQ_LEN_001"
+        ],
+        "present": true,
+        "has_baseline": true
+      },
+      "TC_LEN_003": {
+        "id": "TC_LEN_003",
+        "update_state": "needs_evidence_check",
+        "reasons": [
+          "需重新核对来源：REQ_LEN_002",
+          "需核对测试点证据：TP_LEN_003"
+        ],
+        "present": true,
+        "has_baseline": true
+      },
+      "TC_LEN_004": {
+        "id": "TC_LEN_004",
+        "update_state": "needs_evidence_check",
+        "reasons": [
+          "需重新核对来源：REQ_LEN_002",
+          "需核对测试点证据：TP_LEN_004"
+        ],
+        "present": true,
+        "has_baseline": true
+      }
+    }
+  },
+  "new_acceptance_criteria_to_cover": [],
+  "removed_records_sha256": "3571a1ab80686b48dd1319bc8276d4fc3a1e568544f2d0decc782fdd175d3761"
+}

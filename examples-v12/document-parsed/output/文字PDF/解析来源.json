@@ -1,0 +1,73 @@
+{
+  "schema_version": "1.0",
+  "module": "文字PDF",
+  "original": {
+    "file": "input/任务规则文本_920fe4a5eb.pdf",
+    "sha256": "920fe4a5ebc8e98b16f7a05d9c4bbecefdc5580748537292b2df3867e71d659f",
+    "format": ".pdf"
+  },
+  "draft": "input/任务规则文本_920fe4a5eb__parsed.md",
+  "draft_sha256": "019276ea06638b2a5d5cccab3f42bd2c7c2df100fd39cceda9af1e47b020de97",
+  "blocks": [
+    {
+      "kind": "page",
+      "location": {
+        "page": 1
+      },
+      "lines": [
+        5,
+        5
+      ]
+    },
+    {
+      "kind": "pdf_text",
+      "location": {
+        "page": 1
+      },
+      "lines": [
+        7,
+        12
+      ]
+    },
+    {
+      "kind": "table",
+      "location": {
+        "page": 1,
+        "table": 1,
+        "bbox": [
+          55.0,
+          114.0,
+          535.0,
+          228.0
+        ]
+      },
+      "lines": [
+        14,
+        18
+      ],
+      "rows": [
+        [
+          "条件",
+          "奖励",
+          "提示"
+        ],
+        [
+          "任务次数不足3",
+          "0金币",
+          "任务未完成"
+        ],
+        [
+          "任务次数达到3",
+          "10金币",
+          "领取成功"
+        ]
+      ]
+    }
+  ],
+  "images": [],
+  "needs_review": true,
+  "warnings": [
+    "PDF第1页表格同时保留页文本和结构转录，需核对跨页/合并情况。"
+  ],
+  "scope": "文件转录，不是语义需求提取或真实系统测试"
+}

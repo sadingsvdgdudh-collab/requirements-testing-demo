@@ -1,0 +1,26 @@
+# 缓存与本地运行时（不要提交）
+__pycache__/
+*.pyc
+*.pyo
+.pytest_cache/
+.DS_Store
+Thumbs.db
+
+# 本机运行时配置（README 允许它保存本机 node 路径，属于本地状态）
+runtime.json
+**/runtime.json
+
+# 编辑器/环境
+.idea/
+.vscode/
+.venv/
+venv/
+*.egg-info/
+
+# 临时产物
+*.tmp
+*.utf8.zip
+*.utf8.tmp
+
+# 备份/归档目录（同步工具的默认位置在 ~ 下，这里兜底防止误入仓库）
+_归档/

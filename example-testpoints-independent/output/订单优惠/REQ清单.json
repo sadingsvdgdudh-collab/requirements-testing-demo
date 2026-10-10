@@ -1,0 +1,93 @@
+{
+  "schema_version": "1.0",
+  "module": "订单优惠",
+  "code": "ORD",
+  "requirements": [
+    {
+      "id": "REQ_ORD_001",
+      "title": "订单确认页金额展示",
+      "description": "已登录用户在订单确认页可查看当前订单的商品金额、优惠金额和实付金额。",
+      "kind": "functional",
+      "status": "active",
+      "acceptance_criteria": [
+        {"id": "AC_ORD_001_01", "text": "已登录用户进入订单确认页时，商品金额可见并对应当前订单。"},
+        {"id": "AC_ORD_001_02", "text": "已登录用户进入订单确认页时，优惠金额可见并对应当前订单。"},
+        {"id": "AC_ORD_001_03", "text": "已登录用户进入订单确认页时，实付金额可见并对应当前订单。"}
+      ],
+      "source": {"file": "../input/订单优惠.md", "lines": [4, 4], "quote": "已登录用户在订单确认页查看商品金额、优惠金额和实付金额。", "images": []}
+    },
+    {
+      "id": "REQ_ORD_002",
+      "title": "满100元减10元",
+      "description": "每笔订单商品金额达到100元时享受10元满减，100元本身满足门槛。",
+      "kind": "constraint",
+      "status": "active",
+      "acceptance_criteria": [{"id": "AC_ORD_002_01", "text": "商品金额为100元或超过100元时，该订单满减金额为10元。"}],
+      "source": {"file": "../input/订单优惠.md", "lines": [7, 7], "quote": "每笔订单商品金额满100元减10元，每笔最多减10元。", "images": []}
+    },
+    {
+      "id": "REQ_ORD_003",
+      "title": "每笔满减最多10元",
+      "description": "单笔订单的本项满减上限为10元，金额达到门槛的倍数不能重复累计本项满减。",
+      "kind": "constraint",
+      "status": "active",
+      "acceptance_criteria": [{"id": "AC_ORD_003_01", "text": "单笔订单商品金额为200元等门槛倍数时，本项满减仍为10元，不累计为20元。"}],
+      "source": {"file": "../input/订单优惠.md", "lines": [7, 7], "quote": "每笔最多减10元。", "images": []}
+    },
+    {
+      "id": "REQ_ORD_004",
+      "title": "未满100元无满减",
+      "description": "商品金额低于100元时没有本项满减。",
+      "kind": "constraint",
+      "status": "active",
+      "acceptance_criteria": [{"id": "AC_ORD_004_01", "text": "商品金额低于100元时，本项满减金额为0元。"}],
+      "source": {"file": "../input/订单优惠.md", "lines": [8, 8], "quote": "商品金额未满100元时没有满减优惠。", "images": []}
+    },
+    {
+      "id": "REQ_ORD_005",
+      "title": "优惠后实付金额",
+      "description": "订单确认页展示优惠后的实付金额。只在未选券且没有其他金额调整的测试夹具中，用商品金额减本项满减进行核对；不推定叠加与费用规则。",
+      "kind": "functional",
+      "status": "active",
+      "acceptance_criteria": [{"id": "AC_ORD_005_01", "text": "在仅有本文满减且没有其他金额调整的场景中，商品金额100元、满减10元时，订单确认页展示优惠后实付金额90元。"}],
+      "source": {"file": "../input/订单优惠.md", "lines": [7, 7], "quote": "每笔订单商品金额满100元减10元，每笔最多减10元。优惠后实付金额显示在订单确认页。", "images": []}
+    },
+    {
+      "id": "REQ_ORD_006",
+      "title": "取消订单返回购物车且不付款",
+      "description": "用户取消当前订单时返回购物车，当前订单不完成付款。",
+      "kind": "functional",
+      "status": "active",
+      "acceptance_criteria": [
+        {"id": "AC_ORD_006_01", "text": "用户取消当前订单后进入购物车。"},
+        {"id": "AC_ORD_006_02", "text": "此次取消操作不使当前订单完成付款。"}
+      ],
+      "source": {"file": "../input/订单优惠.md", "lines": [11, 11], "quote": "用户取消订单时返回购物车，不完成付款。", "images": []}
+    },
+    {
+      "id": "REQ_ORD_007",
+      "title": "选择可用券后可提交",
+      "description": "用户选择可用优惠券后可以点击提交订单；此要求不规定提交成功或扣券次数。",
+      "kind": "functional",
+      "status": "active",
+      "acceptance_criteria": [{"id": "AC_ORD_007_01", "text": "用户选择系统已标识为可用的优惠券后，提交订单按钮可点击。"}],
+      "source": {"file": "../input/订单优惠.md", "lines": [14, 14], "quote": "用户选择可用优惠券后可以点击“提交订单”。", "images": []}
+    },
+    {
+      "id": "REQ_ORD_008",
+      "title": "提交失败重试的扣券安全规则",
+      "description": "提交订单失败后重试是否再次扣减优惠券尚未确定，须先确认扣券安全规则。",
+      "kind": "constraint",
+      "status": "blocked",
+      "acceptance_criteria": [],
+      "source": {"file": "../input/订单优惠.md", "lines": [14, 14], "quote": "提交订单失败后重试是否再次扣减优惠券尚未确定，该规则影响扣券安全，需要先确认。", "images": []}
+    }
+  ],
+  "questions": [
+    {"id": "Q_ORD_001", "priority": "P0", "status": "open", "text": "提交失败后重试是否再次扣券？首次失败的扣券状态、重试幂等和补偿规则分别是什么？", "affected_requirements": ["REQ_ORD_008"], "resolution": ""},
+    {"id": "Q_ORD_002", "priority": "P1", "status": "open", "text": "商品金额支持的精度、最小步长和上限是什么？未确认前只使用原文门槛与整数代表值，不宣称99元是刚好低于门槛的值。", "affected_requirements": ["REQ_ORD_002", "REQ_ORD_004"], "resolution": ""},
+    {"id": "Q_ORD_003", "priority": "P1", "status": "open", "text": "优惠券与满减如何叠加，优惠金额是否汇总所有优惠，运费等其他金额调整怎样计入实付？目前数值断言仅限未选券、无其他金额调整的夹具。", "affected_requirements": ["REQ_ORD_001", "REQ_ORD_005", "REQ_ORD_007"], "resolution": ""},
+    {"id": "Q_ORD_004", "priority": "P2", "status": "open", "text": "可用优惠券的资格、有效期等判定规则及可供测试的样本是什么？当前仅以系统已标识为可用的券作为输入。", "affected_requirements": ["REQ_ORD_007"], "resolution": ""}
+  ],
+  "images": []
+}

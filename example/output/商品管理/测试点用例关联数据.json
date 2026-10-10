@@ -1,0 +1,106 @@
+{
+  "schema_version": "1.0",
+  "module": "商品管理",
+  "code": "PRO",
+  "scope": "当前通过评审的测试点范围",
+  "status": "passed",
+  "point_count": 13,
+  "approved_point_count": 13,
+  "linked_point_count": 13,
+  "case_count": 10,
+  "missing_approved_points": [],
+  "excluded_points": [],
+  "excluded_requirements": {
+    "blocked": [],
+    "deprecated": []
+  },
+  "case_links": [
+    {
+      "用例编号": "TC_PRO_001",
+      "关联测试点": [
+        "TP_PRO_004",
+        "TP_PRO_007",
+        "TP_PRO_010",
+        "TP_PRO_011"
+      ],
+      "status": "passed"
+    },
+    {
+      "用例编号": "TC_PRO_002",
+      "关联测试点": [
+        "TP_PRO_001"
+      ],
+      "status": "passed"
+    },
+    {
+      "用例编号": "TC_PRO_003",
+      "关联测试点": [
+        "TP_PRO_002"
+      ],
+      "status": "passed"
+    },
+    {
+      "用例编号": "TC_PRO_004",
+      "关联测试点": [
+        "TP_PRO_003"
+      ],
+      "status": "passed"
+    },
+    {
+      "用例编号": "TC_PRO_005",
+      "关联测试点": [
+        "TP_PRO_009"
+      ],
+      "status": "passed"
+    },
+    {
+      "用例编号": "TC_PRO_006",
+      "关联测试点": [
+        "TP_PRO_008"
+      ],
+      "status": "passed"
+    },
+    {
+      "用例编号": "TC_PRO_007",
+      "关联测试点": [
+        "TP_PRO_004",
+        "TP_PRO_007",
+        "TP_PRO_010",
+        "TP_PRO_011",
+        "TP_PRO_013"
+      ],
+      "status": "passed"
+    },
+    {
+      "用例编号": "TC_PRO_008",
+      "关联测试点": [
+        "TP_PRO_006",
+        "TP_PRO_010",
+        "TP_PRO_011"
+      ],
+      "status": "passed"
+    },
+    {
+      "用例编号": "TC_PRO_009",
+      "关联测试点": [
+        "TP_PRO_012"
+      ],
+      "status": "passed"
+    },
+    {
+      "用例编号": "TC_PRO_010",
+      "关联测试点": [
+        "TP_PRO_005",
+        "TP_PRO_010",
+        "TP_PRO_011"
+      ],
+      "status": "passed"
+    }
+  ],
+  "errors": [],
+  "full_scope_complete": true,
+  "reviewed_source": {
+    "requirements_sha256": "366ab80b4c268edd3260bee3646db3121e36a61e9466d4ad7a2e489d6504aa3e",
+    "testpoints_sha256": "93d075850abeaab4ed6cc020e4e7ecee70fdd74dee4535509003d426e38a4ad2"
+  }
+}

@@ -1,0 +1,37 @@
+{
+  "chapter": {
+    "chapter_number": 3,
+    "chapter_title": "商品管理",
+    "total_requirements": 1
+  },
+  "modules": [
+    {
+      "module_name": "商品管理",
+      "requirement_count": 1,
+      "requirements": [
+        {
+          "requirement_id": "REQ-CH3-001",
+          "requirement_name": "商品名称必填",
+          "type": "功能需求 (FR)",
+          "module": "商品管理",
+          "description": "管理员新增商品时，名称为空不能保存，并显示名称必填提示。",
+          "detailed_description": "管理员已登录后台并打开新增商品页面。\n商品名称为空时，点击保存提示“请输入商品名称”，并且不创建商品。",
+          "testable_elements": {
+            "trigger": "管理员在新增商品页面点击保存",
+            "inputs": ["商品名称为空"],
+            "action": "提交新增商品",
+            "expected_output": "提示“请输入商品名称”，并且不创建商品",
+            "verification_points": ["核对提示文字", "核对商品列表未新增记录"]
+          },
+          "acceptance_criteria": [
+            "商品名称为空时，点击保存提示“请输入商品名称”。",
+            "商品名称为空时，点击保存不创建商品。"
+          ],
+          "related_images": [],
+          "source_page": "本文件为格式演示，没有原始策划案页码",
+          "source_paragraphs": []
+        }
+      ]
+    }
+  ]
+}

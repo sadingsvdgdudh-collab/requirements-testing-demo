@@ -1,0 +1,9 @@
+{
+  "schema_version": "1.0",
+  "original_sha256": "14415a3fa18971d1e84bf688abd4d87928add7347cf10d49b7437aaf801c979b",
+  "draft_sha256": "6cf07e47abdfeba60238b1bffd1f6f0a966c1709d9df0964be243b2f0e0d2440",
+  "status": "confirmed",
+  "reviewer": "Codex（本次样例原件对照）",
+  "notes": "已用macOS Quick Look对照一页Word，确认正文、3次/10金币、表格不足/达到3、合并每日1次及附图；bundled LibreOffice中文字渲染缺字体，本记录不声称其字体显示已通过。",
+  "findings": []
+}

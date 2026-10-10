@@ -1,0 +1,30 @@
+{
+  "schema_version": "1.0",
+  "module": "订单优惠",
+  "code": "ODC",
+  "scope": "已确认范围（active需求）",
+  "status": "passed",
+  "case_count": 8,
+  "requirement_coverage": {
+    "total": 6,
+    "covered": 6,
+    "rate": 1.0,
+    "missing": []
+  },
+  "acceptance_coverage": {
+    "total": 11,
+    "covered": 11,
+    "rate": 1.0,
+    "missing": []
+  },
+  "excluded": {
+    "blocked": [
+      {
+        "id": "REQ_ODC_007",
+        "title": "提交失败重试时的扣券安全规则",
+        "reason": "待澄清：Q_ODC_001"
+      }
+    ],
+    "deprecated": []
+  }
+}

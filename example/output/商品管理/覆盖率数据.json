@@ -1,0 +1,24 @@
+{
+  "schema_version": "1.0",
+  "module": "商品管理",
+  "code": "PRO",
+  "scope": "已确认范围（active需求）",
+  "status": "passed",
+  "case_count": 10,
+  "requirement_coverage": {
+    "total": 6,
+    "covered": 6,
+    "rate": 1.0,
+    "missing": []
+  },
+  "acceptance_coverage": {
+    "total": 10,
+    "covered": 10,
+    "rate": 1.0,
+    "missing": []
+  },
+  "excluded": {
+    "blocked": [],
+    "deprecated": []
+  }
+}

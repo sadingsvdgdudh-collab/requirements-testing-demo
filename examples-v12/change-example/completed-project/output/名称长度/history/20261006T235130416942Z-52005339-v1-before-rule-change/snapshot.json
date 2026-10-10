@@ -1,0 +1,35 @@
+{
+  "schema_version": "1.0",
+  "module": "名称长度",
+  "code": "LEN",
+  "label": "v1-before-rule-change",
+  "created_at": "2026-10-06T23:51:30.421015+00:00",
+  "files": {
+    "module/REQ清单.json": "ed8c0a0497b316c35070a6f2c895714f76df679f862584134ce9be6998ab6db2",
+    "module/测试点.md": "f6f8eeb49aac594142f881e38a91143d21d2f841c9298f88630701dd0c4585fa",
+    "module/测试点.xmind": "7cfa426c6475e0190d28dff1781ff5c309aaed0023d5de8a506097254d79af3d",
+    "module/测试点数据.json": "1361defd7a3a10981a2603371d7c2eba9ce93f58b3707c595fa943eba255f1b1",
+    "module/测试点覆盖率报告.md": "5e9f06b22a00dd3705f1425549589b43e02eb7b50ef2f74e39d2887424f9b51d",
+    "module/测试点覆盖率数据.json": "49916515ce0be55503f863b7576eb3ef6c3f1db6eac2c28920899977e6118c4e",
+    "module/用例数据.json": "861ee22b2d527af241cafb3784aae882ea5acc1cb4a8d5091286a1582cc8ee4e",
+    "module/覆盖率数据.json": "89029592a6f1f7ae7b1a447f44b848bbc379b039aa46471812fc9824c82c10e8",
+    "module/解析.md": "b99f73ac186865a173cade2485768a8402395b60703feee95c02ce6fa6f90759",
+    "module/评审报告.md": "dac5a3814c3ae8cd7d83bd65d160d6a2bd077bf8230af5e2f6f6824da3ed6a1e",
+    "module/详细用例.xlsx": "d34798b9c9b3c63c0cc526fa6ed9119209de7821744345b50931eaf17db2f439",
+    "module/需求覆盖率报告.md": "9c64b06e7363a52c797bed31858a0f2cae6d04699706df0a8ceba4c99d0cf796",
+    "module/需求规范.md": "45536c0b2bfd39ec8e6e9cb2c2b515c346c318d940bc888cc4704eec8ebf750f",
+    "evidence/8479837a75072ce3-商品名称_v1.md": "8479837a75072ce3ff11e456dcf23fa73e3aa5df88ba1f1ff54be90fd93a360c"
+  },
+  "evidence": [
+    {
+      "source": "../input/商品名称_v1.md",
+      "requirements": [
+        "REQ_LEN_001",
+        "REQ_LEN_002"
+      ],
+      "sha256": "8479837a75072ce3ff11e456dcf23fa73e3aa5df88ba1f1ff54be90fd93a360c",
+      "stored": "evidence/8479837a75072ce3-商品名称_v1.md"
+    }
+  ],
+  "note": "文件及已存在的来源副本；不认证历史需求或测试执行结论。"
+}

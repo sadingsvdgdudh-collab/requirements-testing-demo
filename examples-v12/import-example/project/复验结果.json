@@ -1,0 +1,88 @@
+{
+  "schema_version": "1.0",
+  "status": "passed",
+  "basis": "illustrative_existing_structured_material",
+  "requirements": 1,
+  "acceptance_criteria": 2,
+  "testpoints": 2,
+  "cases": 1,
+  "priority_p3_preserved": true,
+  "source_files_unchanged": true,
+  "executed_system_tests": false,
+  "runs": [
+    {
+      "kind": "requirements",
+      "source": "source/旧需求.json",
+      "source_sha256": "1ffcb1a97fa9d7e471cce5e7b1b0495d3caf270418b15b5a1b435e168d452b8a",
+      "preserved_source": "output/商品管理/imports/20261006T235953700986Z/input/旧需求.json",
+      "draft_batch": "output/商品管理/imports/20261006T235953700986Z",
+      "draft_missing_fields": [
+        {
+          "id": "REQ_IMP_001",
+          "location": "$.modules[0].requirements[0]",
+          "fields": [
+            "status 缺失或状态待确认；请明确active/blocked/deprecated"
+          ]
+        }
+      ],
+      "applied_batch": "output/商品管理/imports/20261006T235953746483Z",
+      "published": "output/商品管理/REQ清单.json"
+    },
+    {
+      "kind": "testpoints",
+      "source": "source/旧测试点.json",
+      "source_sha256": "5c1383c1ace3b8e71680dac2bd392ebc71970800879adcfccfc27221a2866e7d",
+      "preserved_source": "output/商品管理/imports/20261006T235953850129Z/input/旧测试点.json",
+      "draft_batch": "output/商品管理/imports/20261006T235953850129Z",
+      "draft_missing_fields": [
+        {
+          "id": "TP_IMP_001",
+          "location": "$.testpoints[0]",
+          "fields": [
+            "场景类型",
+            "设计方法",
+            "场景类型缺失或待确认（旧test_type保留在legacy，不等同场景类型）",
+            "设计方法缺失或未知"
+          ]
+        },
+        {
+          "id": "TP_IMP_002",
+          "location": "$.testpoints[1]",
+          "fields": [
+            "场景类型",
+            "设计方法",
+            "场景类型缺失或待确认（旧test_type保留在legacy，不等同场景类型）",
+            "设计方法缺失或未知"
+          ]
+        }
+      ],
+      "applied_batch": "output/商品管理/imports/20261006T235953921654Z",
+      "published": "output/商品管理/测试点数据.json"
+    },
+    {
+      "kind": "cases",
+      "source": "source/旧9列用例.csv",
+      "source_sha256": "189b9c9e2bbb71dac9a7b7d77302990cda95ec2048d6c495088ed10e21cc21d9",
+      "preserved_source": "output/商品管理/imports/20261006T235954019367Z/input/旧9列用例.csv",
+      "draft_batch": "output/商品管理/imports/20261006T235954019367Z",
+      "draft_missing_fields": [
+        {
+          "id": "TC_IMP_001",
+          "location": "旧9列用例.csv:row:2",
+          "fields": [
+            "是否可自动化",
+            "验收标准",
+            "场景类型",
+            "设计方法",
+            "场景类型缺失或待确认（旧test_type保留在legacy，不等同场景类型）",
+            "设计方法缺失或未知",
+            "是否可自动化缺失或待确认",
+            "验收标准未明确绑定，不能用该REQ的全部AC代填"
+          ]
+        }
+      ],
+      "applied_batch": "output/商品管理/imports/20261006T235954091039Z",
+      "published": "output/商品管理/用例数据.json"
+    }
+  ]
+}

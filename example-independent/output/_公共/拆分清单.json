@@ -1,0 +1,14 @@
+{
+  "schema_version": "1.0",
+  "modules": [
+    {"name": "订单优惠", "code": "ODC", "path": "订单优惠/解析.md"}
+  ],
+  "sources": [
+    {
+      "path": "../input/订单优惠.md",
+      "segments": [
+        {"lines": [1, 14], "targets": ["订单优惠/解析.md"]}
+      ]
+    }
+  ]
+}
