@@ -30,13 +30,19 @@ def read_version(skill_dir):
 
 
 def iter_files(skill_dir):
+    """产出 (绝对路径, 相对技能根目录的路径)。
+
+    相对路径不含技能目录名本身 —— 由 pack() 统一加上根目录前缀。
+    （曾用 os.path.dirname(skill_dir) 计算，导致包内路径出现
+      requirements-testing/requirements-testing/ 双层嵌套。）
+    """
     for dirpath, dirnames, filenames in os.walk(skill_dir):
         dirnames[:] = [d for d in dirnames if d not in SKIP_DIRS]
         for name in filenames:
             if name in SKIP_FILES:
                 continue
             full = os.path.join(dirpath, name)
-            yield full, os.path.relpath(full, os.path.dirname(skill_dir.rstrip("/")))
+            yield full, os.path.relpath(full, skill_dir)
 
 
 def check_zip(path):
