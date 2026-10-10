@@ -131,6 +131,7 @@ python3 tools/同步skill.py        # 把本技能同步到其它安装位置（
 
 **结论**：设计决策、规则与验收标准由人负责；实现大量借助 AI，并逐项验证。
 README 与 `验证结果.md` 里记录的每个数字都可用 `python3 -m unittest discover -s tests` 复核。
+本仓库不夹带第三方代码或二进制依赖，仅通过依赖声明使用第三方库；可选外部能力（Node 与 `@oai/artifact-tool`、Apple Vision / Tesseract OCR）不随仓库分发。
 
 ## 运行环境
 
