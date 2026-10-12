@@ -181,7 +181,7 @@ def main() -> int:
         coverage, approved_coverage = combined['all_coverage'], combined['approved_coverage']
         manifest = load_manifest(module_dir)
         score = score_review(coverage, reviews, scopes, methods)
-        before_context = review_fingerprints(spec, cases, module_dir)
+        before_context = dict(review_data["reviewed_source"])
         destinations = [output] + [module_dir / name for name in (
             '评审报告.md', '评审结果.json', '用例覆盖矩阵.md', '执行准备数据.json', '执行准备清单.md',
              '可读性数据.json', '可读性报告.md')]

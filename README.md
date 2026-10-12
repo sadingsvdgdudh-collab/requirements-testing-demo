@@ -1,9 +1,23 @@
-# 需求到测试 · v1.6.0单技能完整包
+# 需求到测试 · v1.6.1单技能完整包
 
 > **版本号只有一处权威来源：`SKILL.md` front-matter 里的 `version`。**
 > 本文件标题与本节的版本号只作展示，改版本时以 SKILL.md 为准，并用 `tools/检查版本一致.py` 校验。
 
 仍只有一个skill、一个入口：`$requirements-testing`。不要把modules拆开安装。v1.1的需求规范、REQ清单、独立测试点及评审、XMind、详细Excel用例和用例评审全部保留。
+
+## v1.6.1本版修复
+
+2026-10-12，基于 v1.6.0 压缩包审查后的修订。未改变业务 JSON 版本、用例列契约或技能安装方式。
+
+1. 标准用例导入保留公共前置、取证要求、准备事项、能力引用与执行元数据，并继续验证这些字段，不能借导入洗掉无效证据。
+2. 公共前置与取证要求进入用例评审版本绑定；任一变化使旧评审失效。含公共段的旧版评审须重新生成表单并实际评审，不能仅补摘要沿用结论。补录结构化执行历史与填写实际结果一样，不冒充设计变更，也不使设计评审失效。
+3. 空的、未启用的工作簿保护元素不再被误判为已保护；实际启用保护或有密码元数据的工作簿继续拒绝编辑。
+4. `QA_XLSX_FALLBACK=node` 严格禁止 Python 回退；默认模式仍可在依赖缺失时回退。无效模式在创建临时文件前拒绝。
+5. 能力清单对接工具实际使用 `--manifest` 指定的清单。
+6. 已核验但需要采集新资产的设计不再被误判为能力对接错误；核验正确与执行就绪分别判断。
+7. UI 就绪证据不能由仅属于 API 通道的资产充当；旧版未知通道清单继续按既有兼容规则处理。
+
+新增回归测试先在旧实现中复现错误，再在修复后验证；完整结果见[修复说明](修复说明.md)。结构检查仍不负责自动判断业务语义，也不执行被测系统。
 
 ## v1.6.0本版新增
 
@@ -160,7 +174,7 @@ README 与 `验证结果.md` 里记录的每个数字都可用 `python3 -m unitt
 | pypdf | 1 项 ERROR（`test_password_pdf_reports_clear_failure`） |
 | 原生 OCR | 3 项 skipped（需 `QA_TEST_OCR=1` 显式开启） |
 
-环境齐全时基线为 `Ran 247 → errors=2, skipped=4`；那 2 个 error 正是"缺 pypdf"与"缺 Node 运行时"，见依赖说明。
+历史依赖缺失记录见依赖说明；它不代表当前版本的测试基线。测试数量与结果以当前版本实际运行输出为准。
 
 Python 3.10+；DOCX文字解析及既有确定性检查使用标准库。PDF解析需pdfplumber（及其Pillow/pypdfium2渲染依赖）；旧XLSX导入/只读检查需openpyxl。macOS OCR需Vision与Swift/xcrun，其他系统需Tesseract和chi_sim+eng语言包；缺能力明确报告，可由用户选择off后人工视觉转录。
 Excel作者统一使用Node与@oai/artifact-tool。可使用当前工作区提供的依赖；QA_NODE_EXECUTABLE和QA_NODE_MODULES指向实际Node与node_modules。modules/excel/scripts/runtime.json或modules/testcase-builder/scripts/runtime.json可保存本机node_executable/node_modules，环境变量优先。包里不放设备绝对路径、运行时或OCR编译缓存。

@@ -188,6 +188,75 @@ class CompatibilityTests(unittest.TestCase):
         self.assertTrue((self.module / "测试点评审结果.json").exists())
         self.assertFalse((self.module / "详细用例.xlsx").exists())
 
+    def test_canonical_cases_preserve_shared_conditions_and_checked_metadata(self):
+        raw = self.read(self.module / "用例数据.json")
+        raw["module_preconditions"] = ["必须连接隔离的QA测试服。"]
+        raw["evidence_setup"] = ["操作前开启请求日志并记录request_id。"]
+        framework = self.module / "framework"
+        framework.mkdir()
+        capability = framework / "client.py"
+        capability.write_text("raise RuntimeError('must not execute')\ndef create_product():\n    pass\n", encoding="utf-8")
+        manifest = {"schema_version": "1.1", "framework_root": "framework", "reviewer": "QA",
+                    "checked_at": "2026-10-08", "capabilities": [
+                        {"id": "CREATE_PRODUCT", "kind": "function", "channel": "api", "file": "client.py",
+                         "symbol": "create_product", "sha256": hashlib.sha256(capability.read_bytes()).hexdigest(),
+                         "notes": "仅静态核对，未执行框架。"}]}
+        (self.module / "框架能力清单.json").write_text(json.dumps(manifest, ensure_ascii=False), encoding="utf-8")
+        case = raw["cases"][0]
+        metadata = {"automation_evidence": ["CREATE_PRODUCT"],
+                    "preparation": [{"id": "PREP_ACCOUNT", "category": "账号", "description": "缺少隔离账号。",
+                                     "action": "创建独立测试账号。", "status": "open", "affects": ["manual", "automation"],
+                                     "resolution": ""}],
+                    "execution_records": [{"run": 1, "result": "failed"}],
+                    "execution_history": [{"run": 1}], "runs": [{"id": "RUN_001"}],
+                    "执行记录": [{"结果": "失败"}], "执行历史": ["2026-10-08首次执行"],
+                    "执行状态": "失败", "执行人": "QA", "执行时间": "2026-10-08"}
+        case.update(metadata, 自动化建议="仅api自动化可用", 是否可自动化="是",
+                    自动化建议明细="理由：可从接口验证新增结果。\n已有函数/资源：create_product。",
+                    _automation_verified=True, _automation_ready=True, unrecognized_metadata="仅留原件")
+        raw["cases"][1]["preparation"] = []
+        source = self.json_file("canonical-metadata.json", raw)
+        self.cli(source, "cases", "--apply", "--replace")
+        published = self.read(self.module / "用例数据.json")
+        for field in ("module_preconditions", "evidence_setup"):
+            self.assertEqual(published[field], raw[field])
+        for field, value in metadata.items():
+            self.assertEqual(published["cases"][0][field], value)
+        self.assertEqual(published["cases"][1]["preparation"], [])
+        self.assertNotIn("preparation", published["cases"][2])
+        for field in ("_automation_verified", "_automation_ready", "unrecognized_metadata"):
+            self.assertNotIn(field, published["cases"][0])
+            self.assertIn(field, published["cases"][0]["legacy"]["record"])
+
+    def test_case_array_metadata_survives_legacy_id_mapping(self):
+        raw = self.read(self.module / "用例数据.json")["cases"][0]
+        raw.update(用例编号="OLD_CASE_001", preparation=[], automation_evidence=[],
+                   execution_records=[{"run": 1, "result": "passed"}], 是否可自动化="待定",
+                   自动化建议="待核对框架能力", 自动化建议明细="理由：尚未核对。\n待核对能力：新增商品接口。\n核对办法：读取当前框架代码。")
+        source = self.json_file("array-metadata.json", [raw])
+        self.cli(source, "cases", "--apply", "--replace")
+        row = self.read(self.module / "用例数据.json")["cases"][0]
+        self.assertEqual(row["用例编号"], "TC_PRO_011")
+        for field in ("preparation", "automation_evidence", "execution_records"):
+            self.assertEqual(row[field], raw[field])
+        self.assertEqual(row["legacy"]["record"]["用例编号"], "OLD_CASE_001")
+
+    def test_invalid_optional_case_metadata_is_not_laundered_by_import(self):
+        original = (self.module / "用例数据.json").read_bytes()
+        for field, value, root in (("module_preconditions", "必须在测试服执行", True),
+                                   ("evidence_setup", [""], True),
+                                   ("preparation", "尚未准备", False),
+                                   ("automation_evidence", ["UNKNOWN_CAPABILITY"], False)):
+            with self.subTest(field=field):
+                raw = self.read(self.module / "用例数据.json")
+                (raw if root else raw["cases"][0])[field] = value
+                source = self.json_file("invalid-metadata.json", raw)
+                self.cli(source, "cases", "--apply", "--replace", ok=False)
+                self.assertEqual(original, (self.module / "用例数据.json").read_bytes())
+                candidate = self.read(self.batch() / "用例数据.json")
+                self.assertTrue(candidate["validation_errors"])
+                self.assertEqual((candidate if root else candidate["cases"][0])[field], value)
+
     def test_case_import_retains_canonical_point_traceability_and_old_alias(self):
         raw = self.read(self.module / "用例数据.json")["cases"][0]
         links = raw["关联测试点"]

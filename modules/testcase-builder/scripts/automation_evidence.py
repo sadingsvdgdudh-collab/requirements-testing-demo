@@ -243,11 +243,12 @@ def evaluate_automation(case: dict, module_dir: Path | None = None, manifest: di
     opted_in = explicit
     verified_functions = [cap for cap in selected if cap["kind"] == "function" and cap["_verified"]]
     verified_assets = [cap for cap in selected if cap["kind"] == "asset" and cap["_verified"]]
+    ui_assets = [cap for cap in verified_assets if schema != "1.1" or cap["channel"] in ("ui", "both")]
     if opted_in and advice in AVAILABLE_ADVICES:
         if not verified_functions:
             raise ValueError(f"{advice} 必须关联至少一个已核对的函数定义。")
-        if advice in ("UI自动化可用", "双通道均可用") and not verified_assets:
-            raise ValueError(f"{advice} 必须关联已核对的场景资产文件。")
+        if advice in ("UI自动化可用", "双通道均可用") and not ui_assets:
+            raise ValueError(f"{advice} 必须关联已核对的场景资产文件（1.1 清单须为 ui/both 通道）。")
         if advice == "UI自动化可做，需采集新资产":
             detail = case.get("自动化建议明细", "")
             missing = detail.split("需采集新资产：", 1)[-1] if "需采集新资产：" in detail else ""

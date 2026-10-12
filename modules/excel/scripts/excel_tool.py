@@ -85,7 +85,12 @@ def preflight(path: Path, writing: bool = False) -> list[str]:
                         if tag in {"oleObjects", "legacyDrawingHF", "controls"}:
                             unsupported.append(f"复杂对象（{tag}）")
                         if tag in {"sheetProtection", "workbookProtection"}:
-                            unsupported.append("保护设置")
+                            flags = ("sheet",) if tag == "sheetProtection" else ("lockStructure", "lockWindows", "lockRevision")
+                            enabled = any(elem.get(flag, "false").strip().lower() not in {"", "0", "false"} for flag in flags)
+                            credentials = any(value and key.lower().endswith(("password", "algorithmname", "hashvalue", "saltvalue", "spincount"))
+                                              for key, value in elem.attrib.items())
+                            if enabled or credentials:
+                                unsupported.append("保护设置")
                         if tag == "drawing" and any(n.startswith("xl/media/") for n in names):
                             unsupported.append("含图片的原模板绘图")
                         if name.startswith("xl/drawings/") and tag in {"sp", "cxnSp", "grpSp", "pic"}:

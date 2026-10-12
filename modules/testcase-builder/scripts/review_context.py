@@ -6,9 +6,10 @@ import hashlib
 import json
 from pathlib import Path, PureWindowsPath
 
-from qa_cases import ValidationError, load_json
+from qa_cases import ValidationError, load_json, module_shared_lines
 
-_EXECUTION_FIELDS = {"实际结果", "自动化脚本"}
+_EXECUTION_FIELDS = {"实际结果", "自动化脚本", "execution_records", "execution_history", "runs",
+                     "执行记录", "执行历史", "执行状态", "执行人", "执行时间"}
 _SET_FIELDS = {"关联需求", "验收标准", "设计方法", "affected_requirements",
                "automation_evidence", "images"}
 _ID_FIELDS = ("id", "用例编号", "测试点编号", "path")
@@ -123,10 +124,16 @@ def review_fingerprints(spec: dict, cases: list[dict] | dict,
     """Fingerprint design, source state and actual capability files; never change input."""
     if isinstance(cases, dict):
         case_data, rows = cases, cases.get("cases", [])
+        shared = module_shared_lines(cases)
     else:
         rows = cases
         case_data = {"cases": rows}
+        shared = (module_shared_lines(load_json(Path(module_dir).resolve() / "用例数据.json"))
+                  if module_dir is not None else {})
     result = {"requirements_sha256": _digest(spec), "cases_sha256": _digest(case_data)}
+    # List callers have already separated rows from the public design setup.
+    if any(shared.values()):
+        result["module_setup_sha256"] = _digest(shared)
     if module_dir is not None:
         module = Path(module_dir).resolve()
         files = provenance_files(spec, module)

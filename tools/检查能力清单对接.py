@@ -65,24 +65,27 @@ def module_dirs(root: Path) -> list[Path]:
     return sorted({path.parent for path in root.rglob(CASES_NAME) if ".git" not in path.parts})
 
 
-def check_module(module: Path, framework: Path | None, evaluate, validate, load) -> list[str]:
+def check_module(module: Path, framework: Path | None, evaluate, validate, load,
+                 manifest_file: Path | None = None) -> list[str]:
     problems = []
-    manifest_file = module / MANIFEST_NAME
+    explicit_manifest = manifest_file is not None
+    if manifest_file is None:
+        manifest_file = module / MANIFEST_NAME
+        if not manifest_file.is_file():
+            for base in (module.parent, module.parent.parent):
+                if (base / MANIFEST_NAME).is_file():
+                    manifest_file = base / MANIFEST_NAME
+                    break
     if not manifest_file.is_file():
-        for base in (module.parent, module.parent.parent):
-            if (base / MANIFEST_NAME).is_file():
-                manifest_file = base / MANIFEST_NAME
-                break
-    if not manifest_file.is_file():
-        return [f"{module}：找不到 {MANIFEST_NAME}（技能无法核对，自动化就绪一律不成立）"]
-    manifest = load(module)
-    if manifest is None:
-        return [f"{module}：读不到 {MANIFEST_NAME}"]
+        return [f"{module}：找不到 {manifest_file}（技能无法核对，自动化就绪一律不成立）"]
     if framework is not None:
         os.environ.setdefault("QA_FRAMEWORK_ROOT", str(framework))
     try:
+        manifest = json.loads(manifest_file.read_text(encoding="utf-8")) if explicit_manifest else load(module)
+        if manifest is None:
+            return [f"{module}：读不到 {manifest_file}"]
         checked = validate(manifest, module)
-    except ValueError as exc:
+    except (OSError, UnicodeError, ValueError) as exc:
         return [f"{module}：清单本身不合法 —— {exc}"]
     known = {cap["id"] for cap in checked["capabilities"]}
     schema = checked.get("schema_version")
@@ -100,8 +103,10 @@ def check_module(module: Path, framework: Path | None, evaluate, validate, load)
         for ref in result["evidence_ids"]:
             if ref not in known:
                 problems.append(f"{module.name}/{case_id}：引用了清单里没有的能力 {ref}")
-        if advice in {"UI自动化可用", "UI自动化可做，需采集新资产", "仅api自动化可用",
-                      "双通道均可用"} and not result["ready"]:
+        if advice == "UI自动化可做，需采集新资产" and not result["verified"]:
+            problems.append(f"{module.name}/{case_id}：{advice} 但能力证据未核对 —— "
+                            + "；".join(result["reasons"]))
+        elif advice in {"UI自动化可用", "仅api自动化可用", "双通道均可用"} and not result["ready"]:
             problems.append(f"{module.name}/{case_id}：{advice} 但未就绪 —— "
                             + "；".join(result["reasons"]) or "无原因说明")
     print(f"  {module}")
@@ -109,6 +114,9 @@ def check_module(module: Path, framework: Path | None, evaluate, validate, load)
           f" | 用例 {len(data.get('cases', []))} 条")
     if tally:
         print("    自动化建议分布：" + "、".join(f"{k or '（空）'}×{v}" for k, v in sorted(tally.items())))
+    pending = tally.get("UI自动化可做，需采集新资产", 0)
+    if pending:
+        print(f"    {pending} 条仍需采集新资产，尚未就绪。")
     return problems
 
 
@@ -125,10 +133,7 @@ def main():
 
     evaluate, validate, load = load_module_api()
     framework = Path(args.framework).expanduser().resolve() if args.framework else None
-    if framework is None and args.manifest:
-        manifest_data = json.loads(Path(args.manifest).read_text(encoding="utf-8"))
-        value = os.environ.get("QA_FRAMEWORK_ROOT") or manifest_data.get("framework_root")
-        framework = Path(value).expanduser().resolve() if value else None
+    manifest_file = Path(args.manifest).expanduser().resolve() if args.manifest else None
 
     problems = []
     if framework is not None and not args.skip_framework_check and args.framework:
@@ -158,7 +163,7 @@ def main():
     else:
         print(f"③ 技能侧：{len(modules)} 个模块的建议与清单核对")
         for module in modules:
-            problems += check_module(module, framework, evaluate, validate, load)
+            problems += check_module(module, framework, evaluate, validate, load, manifest_file=manifest_file)
 
     print()
     if problems:

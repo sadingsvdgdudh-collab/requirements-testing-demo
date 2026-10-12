@@ -99,6 +99,7 @@ class ManifestChannelTests(unittest.TestCase):
         # 1.0 清单没有通道信息：不能因为"通道未知"就把一条合理的建议判死。
         result = self.evaluate(**{"自动化建议": "双通道均可用", "automation_evidence": ["buy", "chat"]})
         self.assertTrue(result["verified"])
+        self.assertTrue(result["ready"])
         for cap in result["capabilities"]:
             self.assertIsNone(cap["channel"])
 
@@ -125,6 +126,26 @@ class ManifestChannelTests(unittest.TestCase):
         self.publish()
         result = self.evaluate(**{"自动化建议": "UI自动化可用", "automation_evidence": ["dialogue", "chat"]})
         self.assertTrue(result["verified"])
+        self.assertTrue(result["ready"])
+
+    def test_api_asset_cannot_supply_ui_readiness(self):
+        self.manifest["capabilities"][-1]["channel"] = "api"
+        self.publish()
+        for advice, evidence in (("UI自动化可用", ["dialogue", "chat"]),
+                                 ("双通道均可用", ["buy", "dialogue", "chat"])):
+            with self.subTest(advice=advice), self.assertRaisesRegex(ValueError, "场景资产"):
+                self.evaluate(**{"自动化建议": advice, "automation_evidence": evidence})
+
+    def test_both_asset_can_supply_ui_readiness(self):
+        self.manifest["capabilities"][-1]["channel"] = "both"
+        self.publish()
+        result = self.evaluate(**{"自动化建议": "UI自动化可用", "automation_evidence": ["dialogue", "chat"]})
+        self.assertTrue(result["ready"])
+
+    def test_api_asset_remains_valid_for_api_advice(self):
+        self.manifest["capabilities"][-1]["channel"] = "api"
+        self.publish()
+        result = self.evaluate(**{"自动化建议": "仅api自动化可用", "automation_evidence": ["buy", "chat"]})
         self.assertTrue(result["ready"])
 
     def test_dual_channel_requires_both_sides(self):

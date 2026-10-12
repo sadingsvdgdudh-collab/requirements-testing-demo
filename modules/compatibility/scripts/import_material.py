@@ -28,6 +28,9 @@ from validate_spec import check as check_spec
 TARGETS = {"requirements": "REQ清单.json", "testpoints": "测试点数据.json", "cases": "用例数据.json"}
 POINT_FIELDS = ["测试点编号", "优先级", "测试点名称", "前置条件", "检查内容", "测试数据",
                 "预期结果", "关联需求", "验收标准", "场景类型", "设计方法"]
+CASE_METADATA = ("automation_evidence", "preparation", "execution_records", "execution_history", "runs",
+                 "执行记录", "执行历史", "执行状态", "执行人", "执行时间")
+MODULE_CASE_METADATA = ("module_preconditions", "evidence_setup")
 ALIASES = {
     "id": ["id", "requirement_id", "需求编号", "REQ编号"],
     "title": ["title", "requirement_name", "name", "需求名称"],
@@ -490,13 +493,19 @@ def normalize_requirements(rows, module, code, registry, mapping, source, batch,
     return data, missing
 
 
-def normalize_tests(rows, kind, module, code, registry, mapping, spec, source, batch):
+def normalize_tests(rows, kind, module, code, registry, mapping, spec, source, batch, original_data=None):
     list_key = "testpoints" if kind == "testpoints" else "cases"
     id_key, prefix = ("测试点编号", "TP") if kind == "testpoints" else ("用例编号", "TC")
     data = {"schema_version": "1.0", "module": module, "code": code, list_key: []}
+    if kind == "cases" and isinstance(original_data, dict):
+        data.update({field: copy.deepcopy(original_data[field]) for field in MODULE_CASE_METADATA if field in original_data})
     missing, used = [], set()
     for original, location, *extra in rows:
         row = convert_row(original, kind, dict(mapping, fields={}) if extra else mapping)
+        if kind == "cases":
+            record = extra[0] if extra else original
+            # Preserve declarations so validation checks them instead of hiding them in legacy.
+            row.update({field: copy.deepcopy(record[field]) for field in CASE_METADATA if field in record})
         row[id_key] = make_id(row.get(id_key), prefix, code, registry, used)
         for field in canonical_fields(kind):
             if field not in row and field != "关联测试点":
@@ -719,7 +728,7 @@ def run(args):
         if args.kind == "requirements":
             data, missing = normalize_requirements(rows, module, code, registry, mapping, source, batch, original_data)
         else:
-            data, missing = normalize_tests(rows, args.kind, module, code, registry, mapping, spec, source, batch)
+            data, missing = normalize_tests(rows, args.kind, module, code, registry, mapping, spec, source, batch, original_data)
         if isinstance(original_data, dict):
             marker_problems = unresolved_markers(original_data)
             if marker_problems:

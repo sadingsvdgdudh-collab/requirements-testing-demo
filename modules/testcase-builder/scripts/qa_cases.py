@@ -546,6 +546,9 @@ def run_xlsx(payload: dict, output: Path, *, publication_guard=None) -> None:
             require_text(runtime[key], f"本机运行环境/{key}")
     if output.suffix.lower() != ".xlsx":
         raise ValidationError("Excel输出文件必须以 .xlsx 结尾。")
+    requested = os.environ.get("QA_XLSX_FALLBACK", "").strip().lower()
+    if requested not in ("", "node", "python"):
+        raise ValidationError("QA_XLSX_FALLBACK 只能取 node 或 python。")
     output.parent.mkdir(parents=True, exist_ok=True)
     handle, temp_name = tempfile.mkstemp(dir=output.parent, prefix=".qa-xlsx-", suffix=".xlsx")
     os.close(handle)
@@ -553,12 +556,11 @@ def run_xlsx(payload: dict, output: Path, *, publication_guard=None) -> None:
     payload = dict(payload, output=str(temporary))
     # 默认先走 Node 作者，仅在缺少 @oai/artifact-tool（或本机没有 Node）时回退；
     # QA_XLSX_FALLBACK=python 可显式强制回退，便于在无该依赖的环境验证同一契约。
-    requested = os.environ.get("QA_XLSX_FALLBACK", "").strip().lower()
-    if requested not in ("", "node", "python"):
-        raise ValidationError("QA_XLSX_FALLBACK 只能取 node 或 python。")
     try:
         fallback_reason = "QA_XLSX_FALLBACK=python 指定使用回退作者" if requested == "python" else _run_xlsx_node(payload, temporary, runtime)
         if fallback_reason:
+            if requested == "node":
+                raise ValidationError("QA_XLSX_FALLBACK=node 禁止使用Python回退：" + fallback_reason)
             _run_xlsx_python(payload, temporary)
         if not temporary.is_file() or temporary.stat().st_size == 0:
             raise ValidationError("Excel作者未生成有效文件。")
